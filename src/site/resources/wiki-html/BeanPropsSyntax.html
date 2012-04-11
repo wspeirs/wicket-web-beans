@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Bean Props Syntax</title>
+<style type="text/css"><!--
+body {
+	text-align:justify;
+	font: 10pt verdana, sans-serif; 
+	color: #000000; 
+	background: #ffffff;
+}
+
+.monospace {font-family:monospace;}
+
+.quote {
+	padding: 0.5em;
+	margin: 0 0 0.5em 0.5em;	
+	border: 1px solid #ccc;	
+	background: #eee;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-variant: small-caps;
+	color: #111;
+}
+
+li {
+	text-align: left
+}
+
+table {
+	border-size:0;
+}
+
+th {
+	vertical-align: top;
+	color: #FFFF99;
+	background: #0c2577;
+}
+
+td {
+	vertical-align: top;
+	padding: 1px;
+	margin; 2px;
+	font: 10pt verdana, sans-serif;
+}
+--></style>
+  </head>
+  <body>
+<h1>Bean Props Syntax</h1>
+<h1>Syntax of a beanprops File</h1>
+<p>
+</p>
+<h2>General: </h2>
+<p>
+</p>
+<ul><li>Comments start with a pound sign '#' and continue until the end of the line.</li>
+<li>Identifier strings can contain the following ASCII characters: a-z, A-Z, 0-9, _, - (minus), . (period), *, $, any ASCII character in the range 160 - 255 (decimal) and any Unicode character above 255 (0u00ff).</li>
+<li>Whitespace is considered to be any ASCII character in the range 0 through 32 (space).</li>
+<li>The double quote character (&quot;) is used to delimit the start and end of strings. Literal strings are used to include punctuation, and other characters that WWB would normally consider tokens, inside a string. Other than this, WWB make no distinction between identifier strings and quoted strings.</li>
+</ul><p>
+   </p>
+<p>
+</p>
+<h2>Grammar:</h2>
+<p>
+</p>
+<p>
+Notes: <em>[ optional ]</em> denotes an optional element. <strong>Bold</strong> indicates a literal character or string. Semi-colons terminate a rule. &quot;...&quot; indicates that the preceeding element can be repeated one or more times.</p>
+<p>
+</p>
+<p>
+beanprops-file: bean ... ;</p>
+<p>
+</p>
+<p>
+bean: beanName <em>[</em> contextName <em>[</em> <strong>extends</strong> contextName <em>] ]</em> <strong>{</strong> parameters <strong>}</strong> ;</p>
+<p>
+</p>
+<p>
+parameters: parameter <em>[</em> <strong>;</strong> parameter <em>]</em> ... ;</p>
+<p>
+</p>
+<p>
+parameter: parameterName <strong>:</strong> parameterValues;</p>
+<p>
+</p>
+<p>
+parameterValues: parameterValue <em>[</em> <strong>,</strong> parameterValue <em>]</em> ... ;</p>
+<p>
+</p>
+<p>
+parameterValue: simpleValue <em>[</em> <strong>{</strong> parameters <strong>}</strong> <em>]</em> ;</p>
+<p>
+</p>
+<p>
+beanName: <em>string</em>;</p>
+<p>
+contextName: <em>string</em>;</p>
+<p>
+parameterName: <em>string</em>;</p>
+<p>
+simpleValue: <em>string</em>;</p>
+<p>
+</p>
+<p>
+Note: Optionally, a trailing ';' may be specified after the last parameter in a parameterList. This is only for consistency. </p>
+  </body>
+</html>

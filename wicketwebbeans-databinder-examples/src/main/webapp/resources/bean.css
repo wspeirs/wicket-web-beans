@@ -1,0 +1,497 @@
+* {
+	font-size: 11px;
+	font-family: Verdana,Tahoma,Arial;
+	color: #3c3c3c;
+}
+
+.beanFormTopContent {
+	width: 100%;
+}
+
+.beanFormTitle {
+	width: 15%;
+	font-weight: bold;
+	vertical-align: bottom;
+}
+
+.beanFormActionContainer {
+	width: 70%;
+	text-align: center;
+}
+
+
+.beanTabContainer {
+	width: 100%;
+	margin-top: 3px;
+}
+
+#beanFormIndicatorOn {
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	width: 18px;
+	height: 18px;
+	background: transparent url(images/indicator.gif) no-repeat;
+	display: none;
+}
+
+#beanFormIndicatorOff {
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	width: 18px;
+	height: 18px;
+	display: block;
+	color: green;
+}
+
+#beanFormIndicatorError {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 30em;
+	height: 4em;
+	background-color: red;
+	color: white;
+	display: none;
+}
+
+#beanFormIndicatorError :after {
+	content: "Error received from server";
+}
+
+.beanFormError {
+	background-color: #ff7979;
+}
+
+.beanFormFeedback {
+	width: 100%;
+	max-height: 8em;
+	/* IE hacked version of max-height - only read in IE: */
+	height: expression((this.scrollHeight > 100 ? 100 : this.scrollHeight) + "px");
+	overflow: auto;
+	border: 1px solid #a3bed8;
+	margin-top: 5px;
+}
+
+.feedbackPanelERROR {
+	color: red;
+	list-style: disc;
+	font-weight: bold;
+}
+
+.feedbackPanelINFO {
+	color: green;
+	list-style: disc;
+	font-weight: bold;
+}
+
+.beanGridPanel { /* For Top-most bean panels */
+	clear: both;
+	padding: 5px 5px 5px 5px;
+	border: 1px solid #a3bed8;
+	background-color: #d9e5ef;
+	overflow: auto;
+}
+
+.beanGridTable {
+	width: 100%;
+}
+
+.beanTableField {
+}
+
+.beanGridTable td {
+	vertical-align: top;
+}
+
+.verticalLayoutBeanPanel { /* For Top-most veritcal layout bean panels */
+	clear: both;
+	padding: 5px 5px 5px 5px;
+	border: 1px solid #a3bed8;
+	background-color: #d9e5ef;
+	overflow: auto;
+}
+
+.verticalLayoutBeanTable {
+	width: 100%;
+}
+
+.verticalLayoutBeanTable tbody tr td {
+	vertical-align: bottom;
+}
+
+td.beanActionButtonCell  {
+	vertical-align: middle;
+}
+
+.labeledField {
+	float: left;
+	padding: 0px 0px 0px 0px;
+	width: 100%;
+}
+
+.labeledField .beanGridPanel { /* For bean-panels as fields. */
+	padding: 0px 5px 2px 5px;
+	height: auto;
+	border: 0px;
+}
+
+.fieldLabel {
+	color: #3c3c3c;
+	padding: 10px 0px 0px 0px;
+	height: auto;
+	font-weight: bold;
+	/* If you want labels to the left instead of above, uncomment the 3 lines below: */
+	/*float: left; 
+	width: 15em;  
+	text-align: bottom;*/
+}
+
+.field {
+	height: auto;
+	color: #3c3c3c;
+}
+
+.beanRequiredField:after {
+	color: red;
+	content: "*";
+}
+
+.beanInlineField .beanGridPanel {
+	/* For bean-panels that are inlined. */
+	padding: 0px 0px 0px 0px;
+	height: auto;
+	border: 0px;
+}
+
+.beanWithParentLabelField .beanGridPanel {
+	/* For bean-panels that are inlined. */
+	padding: 0px 0px 0px 0px;
+	height: auto;
+	border: 0px;
+}
+
+.beanInCollapsibleField {
+	width: 100%;
+	border: 1px solid #6b6e67;
+	height: auto;
+	display: none; /* Initial state: Start out not collapsed. */
+}
+
+.beanGridField {
+	width: 100%;
+	border: 1px solid #6b6e67;
+	padding: 1px 1px 2px 1px;
+	height: auto;
+}
+
+a.beanSubmitButton {
+	background: #ffffff url(images/buttons/btn-bkg-blue.gif) repeat-x left bottom;
+	border-top: solid 1px #a5a9b6;
+	border-left: solid 1px #a5a9b6;
+	border-bottom: solid 1px #7b8194;
+	border-right: solid 1px #7b8194;
+	padding: 0px 3px 2px 3px;
+	margin-bottom: 2px;
+	white-space: nowrap;
+	font-size: 13px;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
+	font-weight: bold;
+	color: #586073;
+	text-decoration: none;
+	height: 17px; /* font-size 13px + bottom padding 2px + top and bottom border 2px = 17px */
+}
+
+a.beanSubmitButton span { /* For IE - repeat font and text color for span. */
+	white-space: nowrap;
+	font-size: 13px;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
+	font-weight: bold;
+	color: #586073;
+	text-decoration: none;
+}
+
+a.beanSubmitButton:hover {
+	/* Have to repeat these for IE. */
+	font-size: 13px;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
+	font-weight: bold;
+	color: #586073;
+}
+
+a.beanSubmitImageButton {
+	
+}
+
+.inputField {
+	width: 80%;
+	max-width: 25em;
+}
+
+.textAreaField {
+	width: 95%;
+}
+
+.booleanField {
+	
+}
+
+.enumField {
+	
+}
+
+.multiSelectEnumField {
+	height: auto;
+}
+
+.dateTimeField {
+	
+}
+
+.dateEditorTextField {
+	width: 80%;
+	max-width: 16em;
+}
+
+.dateEditorPicker {
+	vertical-align: bottom;
+}
+
+.beanTable {
+	width: 100%;
+}
+
+.beanTableContent {
+	width: 100%;
+	overflow: auto;
+}
+
+.beanTableNavigation {
+	width: 100%;
+}
+
+.beanTableNavLabel {
+	width: 50%;
+}
+
+.beanTableNavPager {
+	width: 50%;
+	text-align: right;
+}
+
+.expandBar {
+	width: 100%; /* Should match .collapsibleBean */
+	height: 15px;
+	font-size: .8em;
+	border: 1px solid #6b6e67;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	vertical-align: bottom;
+	background: #ffffff url(images/buttons/btn-bkg-blue.gif) repeat-x left
+		bottom;
+	cursor: pointer;
+}
+
+.expandBar .expandButton {
+	background: url(images/collapse/lp.gif) no-repeat center center;
+	height: 13px;
+	width: 13px;
+	display: block;
+	/* Initial state. Should be opposite of .collapsibleBean */
+}
+
+.expandBar .collapseButton {
+	background: url(images/collapse/lm.gif) no-repeat center center;
+	height: 13px;
+	width: 13px;
+	display: none; /* Initial state. Should be same as .collapsibleBean */
+}
+
+/* Wicket Dataview styles */
+table.dataview {
+	width: 100%;
+	border: 1px solid #6b6e67;
+	font-size: 1em;
+}
+
+table.dataview caption {
+	text-align: left;
+	padding-bottom: 2px;
+}
+
+table.dataview tr.headers {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+table.dataview tr.navigation {
+	color: #3c3c3c;
+}
+
+table.dataview tr.navigation a:hover {
+	text-decoration: underline;
+}
+
+table.dataview tr.even,tbody.even {
+	background-color: #EFEFEF;
+}
+
+table.dataview tr.even:hover,tbody.even:hover {
+	background-color: #c8cdc1;
+}
+
+table.dataview tr.odd,tbody.odd {
+	background-color: #fff;
+}
+
+table.dataview tr.odd:hover,tbody.odd:hover {
+	background-color: #c8cdc1;
+}
+
+table.dataview tr td {
+	padding-left: 8px;
+	padding-right: 8px;
+	border-right: 1px solid #c7c7c7;
+	border-bottom: 1px solid #c7c7c7;
+	color: #3c3c3c;
+}
+	
+table.dataview tr td a {
+	color: #3c3c3c;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+table.dataview tr td a:hover {
+	text-decoration: underline;
+}
+
+table.dataview tr th {
+	background-color: #CFE0F1;
+	border-top: 1px solid #c7c7c7;
+	border-bottom: 1px solid #c7c7c7;
+	border-right: 1px solid #c7c7c7;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 8px;
+	padding-right: 8px;
+	text-align: left;
+	white-space: nowrap;
+	vertical-align: middle;
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+table.dataview tr th.wicket_orderDown {
+	background-color: #DBEDFF;
+	background-image: url(displaytag/img/arrow_down.png);
+}
+
+table.dataview tr th.wicket_orderUp {
+	background-color: #DBEDFF;
+	background-image: url(displaytag/img/arrow_up.png);
+}
+
+table.dataview tr th.wicket_orderNone {
+	background-image: url(displaytag/img/arrow_off.png);
+}
+
+table.dataview tr th a {
+	color: #2C558C;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+table.dataview tr th a:hover {
+	text-decoration: underline;
+}
+
+table.dataview tr th a:after {
+	content: " ";
+}
+
+table.dataview #message {
+	padding-left: 3px;
+}
+
+/* TAB PANEL STYLES */
+.tab-panel {
+	background-color: blue;
+}
+
+div.beanTabContainer div.tab-row {
+	float: left;
+	width: 100%;
+	background: #d9e5ef bottom url("tabs/bg.gif") repeat-x;
+	line-height: normal;
+}
+
+div.beanTabContainer div.tab-row ul {
+	margin: 0;
+	padding: 10px 10px 0;
+	list-style: none;
+}
+
+div.beanTabContainer div.tab-row li {
+	float: left;
+	background: url("tabs/left.gif") no-repeat left top;
+	margin: 0;
+	padding: 0 0 0 9px;
+}
+
+div.beanTabContainer div.tab-row a {
+	display: block;
+	background: url("tabs/right.gif") no-repeat right top;
+	padding: 5px 15px 4px 6px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #765;
+	white-space: nowrap;
+}
+
+div.beanTabContainer div.tab-row a:hover {
+	color: #333;
+}
+
+div.beanTabContainer div.tab-row li.selected {
+	background-image: url("tabs/left_on.gif");
+}
+
+div.beanTabContainer div.tab-row li.selected a {
+	background-image: url("tabs/right_on.gif");
+	color: #333;
+	padding-bottom: 5px;
+}
+
+/* Autocomplete fields */
+div.wicket-aa {
+	/*font-size: 10px;*/
+	background-color: white;
+	border-width: 1px;
+	border-color: #cccccc;
+	border-style: solid;
+	padding: 2px;
+	margin: 1px 0 0 0;
+	text-align: left;
+	white-space: nowrap;
+	max-height: 20em;
+	width: 30em;
+	overflow: auto;
+}
+
+div.wicket-aa ul {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+div.wicket-aa ul li {
+	padding: 0px;
+	margin: 0px;
+	line-height: 1em;
+}
+
+div.wicket-aa ul li.selected {
+	background-color: #FFFF00;
+}

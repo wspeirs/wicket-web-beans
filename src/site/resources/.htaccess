@@ -1,0 +1,20 @@
+# No directory listings
+Options -Indexes
+
+# Allow SSIs
+Options  +Includes
+
+# Process server-side includes for executable .html files, full preserves the modification date
+# for caching on the server or client side. User and Group execute bits must be set.
+# Set just the User execute bit to not return a mod date, hence not allow caching.
+XBitHack full
+
+
+# Custom 404 document
+ErrorDocument 404 /404.html
+
+# Don't go to CVS directories, if any
+<Files "CVS">
+       Deny from all
+</Files>
+

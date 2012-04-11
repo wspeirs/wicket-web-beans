@@ -1,0 +1,8 @@
+# Custom Field (Custom enum) Bean Example
+Address {
+	props: 
+		address1{colspan: 3}, 
+		address2{colspan: 3},
+		city, state, zip,
+		country{defaultValue: "USA"};
+}

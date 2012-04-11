@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Tables</title>
+<style type="text/css"><!--
+body {
+	text-align:justify;
+	font: 10pt verdana, sans-serif; 
+	color: #000000; 
+	background: #ffffff;
+}
+
+.monospace {font-family:monospace;}
+
+.quote {
+	padding: 0.5em;
+	margin: 0 0 0.5em 0.5em;	
+	border: 1px solid #ccc;	
+	background: #eee;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-variant: small-caps;
+	color: #111;
+}
+
+li {
+	text-align: left
+}
+
+table {
+	border-size:0;
+}
+
+th {
+	vertical-align: top;
+	color: #FFFF99;
+	background: #0c2577;
+}
+
+td {
+	vertical-align: top;
+	padding: 1px;
+	margin; 2px;
+	font: 10pt verdana, sans-serif;
+}
+--></style>
+  </head>
+  <body>
+<h1>Tables</h1>
+<p>
+Back: <a href="EnumeratedTypes.html">EnumeratedTypes</a>  Next: <a href="CreatingYourOwnFieldTypes.html">CreatingYourOwnFieldTypes</a></p>
+<p>
+</p>
+<p>
+You may encounter times when you need to manage Lists of nested beans. By default, WWB displays Lists in an editable table. Let's look at an example: <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/tables/TableBeanPage.java.html">com.googlecode.wicketwebbeans.examples.tables.TableBeanPage</a>:</p>
+<p>
+</p>
+<p>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter V4.1 2004 by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#808080">01</font>&nbsp;<font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.examples.tables;</font><br/>
+<font color="#808080">02</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">03</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.containers.BeanForm;</font><br/>
+<font color="#808080">04</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.model.BeanMetaData;</font><br/>
+<font color="#808080">05</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">06</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">org.apache.wicket.ajax.AjaxRequestTarget;</font><br/>
+<font color="#808080">07</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">org.apache.wicket.markup.html.WebPage;</font><br/>
+<font color="#808080">08</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">org.apache.wicket.markup.html.form.Form;</font><br/>
+<font color="#808080">09</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">10</font>&nbsp;<font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">TableBeanPage&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">WebPage</font><br/>
+<font color="#808080">11</font>&nbsp;<font color="#000000">{</font><br/>
+<font color="#808080">12</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">Invoice&nbsp;bean&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">Invoice</font><font color="#000000">()</font><font color="#000000">;</font><br/>
+<font color="#808080">13</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><br/>
+<font color="#808080">14</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">TableBeanPage</font><font color="#000000">()</font><br/>
+<font color="#808080">15</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">16</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Start&nbsp;with&nbsp;one&nbsp;empty&nbsp;line.</font><br/>
+<font color="#808080">17</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">bean.getLines</font><font color="#000000">()</font><font color="#000000">.add</font><font color="#000000">(&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">InvoiceLine</font><font color="#000000">()&nbsp;)</font><font color="#000000">;</font><br/>
+<font color="#808080">18</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><br/>
+<font color="#808080">19</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">BeanMetaData&nbsp;meta&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BeanMetaData</font><font color="#000000">(</font><font color="#000000">bean.getClass</font><font color="#000000">()</font><font color="#000000">,&nbsp;null,&nbsp;this,&nbsp;null,&nbsp;</font><font color="#7f0055"><b>false</b></font><font color="#000000">)</font><font color="#000000">;</font><br/>
+<font color="#808080">20</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">add</font><font color="#000000">(&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BeanForm</font><font color="#000000">(</font><font color="#2a00ff">&#34;beanForm&#34;</font><font color="#000000">,&nbsp;bean,&nbsp;meta</font><font color="#000000">)&nbsp;)</font><font color="#000000">;</font><br/>
+<font color="#808080">21</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">22</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><br/>
+<font color="#808080">23</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">addLine</font><font color="#000000">(</font><font color="#000000">AjaxRequestTarget&nbsp;target,&nbsp;Form&nbsp;form,&nbsp;Invoice&nbsp;bean</font><font color="#000000">)</font><br/>
+<font color="#808080">24</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">25</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.bean.getLines</font><font color="#000000">()</font><font color="#000000">.add</font><font color="#000000">(&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">InvoiceLine</font><font color="#000000">()&nbsp;)</font><font color="#000000">;</font><br/>
+<font color="#808080">26</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">27</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">28</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">removeLine</font><font color="#000000">(</font><font color="#000000">AjaxRequestTarget&nbsp;target,&nbsp;Form&nbsp;form,&nbsp;InvoiceLine&nbsp;line</font><font color="#000000">)</font><br/>
+<font color="#808080">29</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">30</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">bean.getLines</font><font color="#000000">()</font><font color="#000000">.remove</font><font color="#000000">(</font><font color="#000000">line</font><font color="#000000">)</font><font color="#000000">;</font><br/>
+<font color="#808080">31</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">info</font><font color="#000000">(</font><font color="#2a00ff">&#34;Removed&nbsp;line&nbsp;with&nbsp;item&nbsp;code&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;</font><font color="#000000">(</font><font color="#000000">line.getItemCode</font><font color="#000000">()&nbsp;</font><font color="#000000">==&nbsp;</font><font color="#7f0055"><b>null&nbsp;</b></font><font color="#000000">?&nbsp;</font><font color="#2a00ff">&#34;&lt;empty&gt;&#34;&nbsp;</font><font color="#000000">:&nbsp;line.getItemCode</font><font color="#000000">())&nbsp;)</font><font color="#000000">;</font><br/>
+<font color="#808080">32</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">33</font>&nbsp;<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+  <!-- start Java2Html link -->
+   <tr>
+    <td align="right">
+<small>
+<a href="http://www.java2html.de" target="_blank">Java2html</a>
+</small>
+    </td>
+   </tr>
+  <!-- end Java2Html link -->
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+</p>
+<p>
+</p>
+<p>
+This page references two beans <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/tables/Invoice.java.html">com.googlecode.wicketwebbeans.examples.tables.Invoice</a> and <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/tables/InvoiceLine.java.html">com.googlecode.wicketwebbeans.examples.tables.InvoiceLine</a> - the typical invoice pattern. If you look at InvoiceLine, you'll see that it uses a couple of features we talked about previously: enums and PropertyChangeEvents. The enum is for the itemCode and the PropertyChangeEvents cause the total to be updated when either the quantity or cost change.  </p>
+<p>
+</p>
+<pre>	# Table Bean Example
+	Invoice {
+		props: invoiceNumber, invoiceDate, EMPTY, customerName, 
+			shipToAddress{colspan: 3},
+			action.addLine{colspan: 3},
+			lines{colspan: 3};
+	}
+	
+	InvoiceLine {
+		props: action.removeLine{labelImage: &quot;remove.gif&quot;},
+			quantity, itemCode, cost, total; 
+	}
+	
+	Address {
+		props: address1{colspan: 3}, address2{colspan: 3}, city, state, zip;
+	}</pre><p>
+</p>
+<p>
+You'll note a couple of new things here. First, the pseudo-property &quot;EMPTY&quot;. In the BeanGridPanel (the default layout for BeanForm), EMPTY consumes a blank cell in the grid. Second, the &quot;action.removeLine&quot; action specifies a &quot;labelImage&quot; parameter. This allows you to display an image in place of a text label. Also note that Invoice has an addLine action that will add a line to the invoice. InvoiceLine has a removeLine action that will remove a line from the table. </p>
+<p>
+</p>
+<p>
+When you bring up the page, it will look something like:</p>
+<p>
+</p>
+<p>
+<img alt="Eclipse:/WicketWebBeans/doc/wiki/images/TableBeanScreenshot.png" src="workspace/WicketWebBeans/doc/wiki/images/TableBeanScreenshot.png"/></p>
+<p>
+</p>
+<p>
+Of course, you could throw the lines in a separate tab to clean up the page a bit. Note that clicking &quot;Add Line&quot; adds a new line to the table. Clicking the trash can icon on one of the lines will remove the corresponding line. </p>
+<p>
+</p>
+<p>
+The screenshot also shows the Invoice Date field with a calendar pop-up displayed. WWB displays properties of java.util.Date (date/time), java.sql.Date (date only), java.sql.Time (time only), java.sql.Timestamp (date/time), and java.util.Calendar (date/time with timezone) in a field with a pop-up calendar button.  </p>
+<p>
+</p>
+<p>
+Back: <a href="EnumeratedTypes.html">EnumeratedTypes</a>  Next: <a href="CreatingYourOwnFieldTypes.html">CreatingYourOwnFieldTypes</a></p>
+<p>
+</p>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+# Nested Bean Example
+Customer {
+	props: 
+		firstName, lastName, 
+		billToAddress{colspan: 3}, 
+		shipToAddress{colspan: 3};
+}
+
+Address {
+	props: 
+		address1{colspan: 3}, 
+		address2{colspan: 3},
+		city, state, zip; 
+}

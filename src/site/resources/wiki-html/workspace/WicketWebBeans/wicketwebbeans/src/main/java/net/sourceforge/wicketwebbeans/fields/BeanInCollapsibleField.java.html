@@ -1,0 +1,87 @@
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter V4.1 2004 by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#808080">01</font>&nbsp;<font color="#3f7f5f">/*---</font><br/>
+<font color="#808080">02</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">Copyright&nbsp;2006-2007&nbsp;Visual&nbsp;Systems&nbsp;Corporation.</font><br/>
+<font color="#808080">03</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">http://www.vscorp.com</font><br/>
+<font color="#808080">04</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">05</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">Licensed&nbsp;under&nbsp;the&nbsp;Apache&nbsp;License,&nbsp;Version&nbsp;2.0&nbsp;(the&nbsp;&#34;License&#34;);</font><br/>
+<font color="#808080">06</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">you&nbsp;may&nbsp;not&nbsp;use&nbsp;this&nbsp;file&nbsp;except&nbsp;in&nbsp;compliance&nbsp;with&nbsp;the&nbsp;License.</font><br/>
+<font color="#808080">07</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">You&nbsp;may&nbsp;obtain&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;License&nbsp;at</font><br/>
+<font color="#808080">08</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><br/>
+<font color="#808080">09</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">http://www.apache.org/licenses/LICENSE-2.0</font><br/>
+<font color="#808080">10</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><br/>
+<font color="#808080">11</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">Unless&nbsp;required&nbsp;by&nbsp;applicable&nbsp;law&nbsp;or&nbsp;agreed&nbsp;to&nbsp;in&nbsp;writing,&nbsp;software</font><br/>
+<font color="#808080">12</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">distributed&nbsp;under&nbsp;the&nbsp;License&nbsp;is&nbsp;distributed&nbsp;on&nbsp;an&nbsp;&#34;AS&nbsp;IS&#34;&nbsp;BASIS,</font><br/>
+<font color="#808080">13</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">WITHOUT&nbsp;WARRANTIES&nbsp;OR&nbsp;CONDITIONS&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;either&nbsp;express&nbsp;or&nbsp;implied.</font><br/>
+<font color="#808080">14</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">See&nbsp;the&nbsp;License&nbsp;for&nbsp;the&nbsp;specific&nbsp;language&nbsp;governing&nbsp;permissions&nbsp;and</font><br/>
+<font color="#808080">15</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">limitations&nbsp;under&nbsp;the&nbsp;License.</font><br/>
+<font color="#808080">16</font>&nbsp;<font color="#3f7f5f">---*/</font><br/>
+<font color="#808080">17</font>&nbsp;<font color="#3f7f5f">/*</font><br/>
+<font color="#808080">18</font>&nbsp;<font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;</font><br/>
+<font color="#808080">19</font>&nbsp;<font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br/>
+<font color="#808080">20</font>&nbsp;<font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.fields;</font><br/>
+<font color="#808080">21</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">22</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.containers.BeanGridPanel;</font><br/>
+<font color="#808080">23</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.model.BeanMetaData;</font><br/>
+<font color="#808080">24</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.model.ElementMetaData;</font><br/>
+<font color="#808080">25</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">26</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">org.apache.wicket.model.IModel;</font><br/>
+<font color="#808080">27</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">28</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">29</font>&nbsp;<font color="#3f5fbf">/**</font><br/>
+<font color="#808080">30</font>&nbsp;<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;A&nbsp;Field&nbsp;that&nbsp;presents&nbsp;a&nbsp;property's&nbsp;bean&nbsp;in&nbsp;a&nbsp;collapsible&nbsp;panel.</font><br/>
+<font color="#808080">31</font>&nbsp;<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br/>
+<font color="#808080">32</font>&nbsp;<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;</font><font color="#3f5fbf">Dan&nbsp;Syrstad</font><br/>
+<font color="#808080">33</font>&nbsp;<font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br/>
+<font color="#808080">34</font>&nbsp;<font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">BeanInCollapsibleField&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">AbstractField</font><br/>
+<font color="#808080">35</font>&nbsp;<font color="#000000">{</font><br/>
+<font color="#808080">36</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br/>
+<font color="#808080">37</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Construct&nbsp;a&nbsp;new&nbsp;BeanInCollapsibleField.</font><br/>
+<font color="#808080">38</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*</font><br/>
+<font color="#808080">39</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">id&nbsp;the&nbsp;Wicket&nbsp;id&nbsp;for&nbsp;the&nbsp;editor.</font><br/>
+<font color="#808080">40</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">model&nbsp;the&nbsp;model.</font><br/>
+<font color="#808080">41</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">metaData&nbsp;the&nbsp;meta&nbsp;data&nbsp;for&nbsp;the&nbsp;property.</font><br/>
+<font color="#808080">42</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">viewOnly&nbsp;true&nbsp;if&nbsp;the&nbsp;component&nbsp;should&nbsp;be&nbsp;view-only.</font><br/>
+<font color="#808080">43</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br/>
+<font color="#808080">44</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">BeanInCollapsibleField</font><font color="#000000">(</font><font color="#000000">String&nbsp;id,&nbsp;IModel&nbsp;model,&nbsp;ElementMetaData&nbsp;metaData,&nbsp;</font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">viewOnly</font><font color="#000000">)</font><br/>
+<font color="#808080">45</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">46</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>super</b></font><font color="#000000">(</font><font color="#000000">id,&nbsp;model,&nbsp;metaData,&nbsp;viewOnly</font><font color="#000000">)</font><font color="#000000">;</font><br/>
+<font color="#808080">47</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><br/>
+<font color="#808080">48</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">BeanMetaData&nbsp;beanMetaData&nbsp;=&nbsp;metaData.createBeanMetaData</font><font color="#000000">(</font><font color="#000000">viewOnly</font><font color="#000000">)</font><font color="#000000">;</font><br/>
+<font color="#808080">49</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><br/>
+<font color="#808080">50</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">!viewOnly&nbsp;&amp;&amp;&nbsp;model.getObject</font><font color="#000000">()&nbsp;</font><font color="#000000">==&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">)&nbsp;{</font><br/>
+<font color="#808080">51</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Create&nbsp;a&nbsp;blank&nbsp;instance&nbsp;for&nbsp;editing.</font><br/>
+<font color="#808080">52</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">model.setObject</font><font color="#000000">(&nbsp;</font><font color="#000000">metaData.createInstance</font><font color="#000000">()&nbsp;)</font><font color="#000000">;</font><br/>
+<font color="#808080">53</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">54</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">55</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">add</font><font color="#000000">(&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BeanGridPanel</font><font color="#000000">(</font><font color="#2a00ff">&#34;beanPanel&#34;</font><font color="#000000">,&nbsp;model,&nbsp;beanMetaData</font><font color="#000000">)&nbsp;)</font><font color="#000000">;</font><br/>
+<font color="#808080">56</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">57</font>&nbsp;<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+  <!-- start Java2Html link -->
+   <tr>
+    <td align="right">
+<small>
+<a href="http://www.java2html.de" target="_blank">Java2html</a>
+</small>
+    </td>
+   </tr>
+  <!-- end Java2Html link -->
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+

@@ -1,0 +1,16 @@
+# Table Bean Example
+Invoice {
+	props: invoiceNumber, invoiceDate, EMPTY, customerName, 
+		shipToAddress{colspan: 3},
+		action.addLine{colspan: 3},
+		lines{colspan: 3};
+}
+
+InvoiceLine {
+	props: action.removeLine{labelImage: "remove.gif"},
+		quantity, itemCode, cost, total; 
+}
+
+Address {
+	props: address1{colspan: 3}, address2{colspan: 3}, city, state, zip;
+}

@@ -1,0 +1,69 @@
+BeanMetaDataTestBean {
+	label: "My ${TestBean.title} Title";   
+	props: 
+		action.save{colspan: 3},
+		firstName,
+		lastName,
+		EMPTY,
+		activePrimitive,
+		color,
+		inlineBean{fieldType: BeanInlineField; colspan: 3},
+		dateTimestamp,
+		blockBean{fieldType: BeanGridField; colspan: 3},
+		testBean2{colspan: 3},
+		popupBean{colspan: 3},
+		-subComponent;
+
+	tabs: 
+		nameInfo,
+		miscInfo {
+			label: "${MiscInfo.title}";
+			props:
+				gender,
+				EMPTY,  
+				age,
+				operand1,
+				operand2,
+				result{viewOnly: true},
+				palette{elementType: BeanMetaDataTestBean$ColorEnum},
+				palette2{elementType: BeanMetaDataTestBean$ColorEnum; viewOnly: true},
+				description{fieldType: TextAreaField; rows: 5};
+		}, 
+		listOfBeans {
+			props: 
+				action.addRow{colspan: 3}, 
+				beans{viewOnly: true; rows: 20};
+		};
+}
+
+BeanMetaDataTestBean[view] {
+	label: "Bean View";
+	viewOnly: true;
+	props:
+		action.save{colspan: 4},
+		firstName{viewOnly: false};
+		
+	tabs: miscInfo { 
+		props: -palette2;
+	};
+}
+
+BeanMetaDataTestBean[popupView extends view] {
+	label: "Bean Popup View";
+	props: 
+		-color, 
+		lastName{viewOnly: false};
+}
+
+BeanMetaDataTestBean2 {
+	actions: -doIt;
+	props: 
+		action.deleteRow{labelImage: "remove.gif"},
+		selected{label: X},
+		firstName{viewOnly: false},
+		lastName;
+}
+
+# Make sure parser allows empty blocks
+XX { }
+XX2 { props: a{}, b, c; }

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Actions</title>
+<style type="text/css"><!--
+body {
+	text-align:justify;
+	font: 10pt verdana, sans-serif; 
+	color: #000000; 
+	background: #ffffff;
+}
+
+.monospace {font-family:monospace;}
+
+.quote {
+	padding: 0.5em;
+	margin: 0 0 0.5em 0.5em;	
+	border: 1px solid #ccc;	
+	background: #eee;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-variant: small-caps;
+	color: #111;
+}
+
+li {
+	text-align: left
+}
+
+table {
+	border-size:0;
+}
+
+th {
+	vertical-align: top;
+	color: #FFFF99;
+	background: #0c2577;
+}
+
+td {
+	vertical-align: top;
+	padding: 1px;
+	margin; 2px;
+	font: 10pt verdana, sans-serif;
+}
+--></style>
+  </head>
+  <body>
+<h1>Actions</h1>
+<p>
+Back: <a href="SimpleExample.html">SimpleExample</a> Next: <a href="Customization.html">Customization</a></p>
+<p>
+</p>
+<p>
+It's simple to add actions to your form. Here's the code for <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/actions/ActionBeanPage.java.html">com.googlecode.wicketwebbeans.examples.actions.ActionBeanPage</a>:</p>
+<p>
+</p>
+<p>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter V4.1 2004 by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#808080">01</font>&nbsp;<font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.examples.actions;</font><br/>
+<font color="#808080">02</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">03</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.containers.BeanForm;</font><br/>
+<font color="#808080">04</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.examples.simple.TestBean;</font><br/>
+<font color="#808080">05</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.model.BeanMetaData;</font><br/>
+<font color="#808080">06</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">07</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">org.apache.wicket.ajax.AjaxRequestTarget;</font><br/>
+<font color="#808080">08</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">org.apache.wicket.markup.html.WebPage;</font><br/>
+<font color="#808080">09</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">org.apache.wicket.markup.html.form.Form;</font><br/>
+<font color="#808080">10</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">11</font>&nbsp;<font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">ActionBeanPage&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">WebPage</font><br/>
+<font color="#808080">12</font>&nbsp;<font color="#000000">{</font><br/>
+<font color="#808080">13</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">ActionBeanPage</font><font color="#000000">()</font><br/>
+<font color="#808080">14</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">15</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">TestBean&nbsp;bean&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">TestBean</font><font color="#000000">()</font><font color="#000000">;</font><br/>
+<font color="#808080">16</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">BeanMetaData&nbsp;meta&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BeanMetaData</font><font color="#000000">(</font><font color="#000000">bean.getClass</font><font color="#000000">()</font><font color="#000000">,&nbsp;null,&nbsp;this,&nbsp;null,&nbsp;</font><font color="#7f0055"><b>false</b></font><font color="#000000">)</font><font color="#000000">;</font><br/>
+<font color="#808080">17</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">add</font><font color="#000000">(&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BeanForm</font><font color="#000000">(</font><font color="#2a00ff">&#34;beanForm&#34;</font><font color="#000000">,&nbsp;bean,&nbsp;meta</font><font color="#000000">)&nbsp;)</font><font color="#000000">;</font><br/>
+<font color="#808080">18</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">19</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">20</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">save</font><font color="#000000">(</font><font color="#000000">AjaxRequestTarget&nbsp;target,&nbsp;Form&nbsp;form,&nbsp;TestBean&nbsp;bean</font><font color="#000000">)</font><br/>
+<font color="#808080">21</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">22</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">info</font><font color="#000000">(</font><font color="#2a00ff">&#34;Saved&nbsp;-&nbsp;thank&nbsp;you&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br/>
+<font color="#808080">23</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">24</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">25</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">cancel</font><font color="#000000">(</font><font color="#000000">AjaxRequestTarget&nbsp;target,&nbsp;Form&nbsp;form,&nbsp;TestBean&nbsp;bean</font><font color="#000000">)</font><br/>
+<font color="#808080">26</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">27</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">info</font><font color="#000000">(</font><font color="#2a00ff">&#34;Canceled&nbsp;-&nbsp;thank&nbsp;you&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br/>
+<font color="#808080">28</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">29</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">30</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">clearLastName</font><font color="#000000">(</font><font color="#000000">AjaxRequestTarget&nbsp;target,&nbsp;Form&nbsp;form,&nbsp;TestBean&nbsp;bean</font><font color="#000000">)</font><br/>
+<font color="#808080">31</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">32</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">bean.setLastName</font><font color="#000000">(</font><font color="#2a00ff">&#34;&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br/>
+<font color="#808080">33</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">34</font>&nbsp;<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+  <!-- start Java2Html link -->
+   <tr>
+    <td align="right">
+<small>
+<a href="http://www.java2html.de" target="_blank">Java2html</a>
+</small>
+    </td>
+   </tr>
+  <!-- end Java2Html link -->
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+</p>
+<p>
+</p>
+<p>
+Note the methods in ActionBeanPage.java: save, cancel, and clearLastName. These methods define the actions available from your Page (or whatever component the form is embedded in). By default, the action's label is derived from the method name. Every action method must have the following method signature:</p>
+<p>
+</p>
+<pre>    public void actionName(AjaxRequestTarget target, Form form, &lt;BeanClassName&gt; bean) 
+    { 
+        ...
+    }</pre><p>
+</p>
+<p>
+The target parameter normally null. The Wicket Form is always passed in &quot;form&quot; and the bean that the action applies to is in &quot;bean&quot;. <em>BeanClassName</em> is the class name of the bean to which the action will apply. Optionally this may be &quot;Object&quot; if the action should apply to all beans on your page. WWB only automatically matches actions whose &quot;bean&quot; parameter type matches the bean in question or Object. </p>
+<p>
+</p>
+<p>
+This configuration yields the following page:</p>
+<p>
+<img alt="Eclipse:/WicketWebBeans/doc/wiki/images/ActionBeanSimpleScreenshot.png" src="workspace/WicketWebBeans/doc/wiki/images/ActionBeanSimpleScreenshot.png"/></p>
+<p>
+</p>
+<p>
+</p>
+<p>
+Back: <a href="SimpleExample.html">SimpleExample</a> Next: <a href="Customization.html">Customization</a></p>
+  </body>
+</html>

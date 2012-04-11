@@ -1,0 +1,23 @@
+Contact
+{
+	label: Contacts;
+	orderBy: "lastName";
+	filter: lastName, firstName;
+	props: -id,
+			action.edit{labelImage: "Edit16.gif"; },
+			action.delete{labelImage: "Delete16.gif"; confirm: "Really delete contact?"},
+			firstName, lastName, 
+			category{fieldType: com.googlecode.wicketwebbeans.databinder.examples.CategoryField};
+}
+
+Category
+{
+	label: Categories;
+	orderBy: "name desc";
+	filter: name;
+	props: -id, 
+			action.edit{labelImage: "Edit16.gif"},
+			action.delete{labelImage: "Delete16.gif"; confirm: "Really delete category?"},
+			name;
+}
+

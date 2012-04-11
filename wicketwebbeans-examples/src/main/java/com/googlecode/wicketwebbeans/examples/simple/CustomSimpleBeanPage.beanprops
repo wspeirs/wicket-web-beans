@@ -1,0 +1,5 @@
+# Customize TestBean.
+TestBean {
+	cols: 1;
+	props: firstName, lastName, operand1, operand2, result, -number;
+}

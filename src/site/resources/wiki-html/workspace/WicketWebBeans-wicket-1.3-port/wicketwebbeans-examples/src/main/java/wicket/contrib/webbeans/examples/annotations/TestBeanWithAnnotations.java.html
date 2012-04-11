@@ -1,0 +1,134 @@
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter V4.1 2004 by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#808080">001</font>&nbsp;<font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.examples.annotations;</font><br/>
+<font color="#808080">002</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">003</font>&nbsp;<font color="#7f0055"><b>import&nbsp;static&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.annotations.Property.EMPTY;</font><br/>
+<font color="#808080">004</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">005</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.Serializable;</font><br/>
+<font color="#808080">006</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">007</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.annotations.Bean;</font><br/>
+<font color="#808080">008</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.annotations.Beans;</font><br/>
+<font color="#808080">009</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.annotations.Parameter;</font><br/>
+<font color="#808080">010</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.annotations.Property;</font><br/>
+<font color="#808080">011</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.annotations.Tab;</font><br/>
+<font color="#808080">012</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">013</font>&nbsp;<font color="#000000">@Beans</font><font color="#000000">({</font><br/>
+<font color="#808080">014</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">@Bean</font><font color="#000000">(</font><br/>
+<font color="#808080">015</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">tabs&nbsp;=&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">016</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">@Tab</font><font color="#000000">(</font><font color="#000000">name&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;General&#34;</font><font color="#000000">,&nbsp;propertyNames&nbsp;=&nbsp;</font><font color="#000000">{&nbsp;</font><font color="#2a00ff">&#34;firstName&#34;</font><font color="#000000">,&nbsp;</font><font color="#2a00ff">&#34;lastName&#34;</font><font color="#000000">,&nbsp;</font><font color="#2a00ff">&#34;idNumber&#34;&nbsp;</font><font color="#000000">})</font><font color="#000000">,</font><br/>
+<font color="#808080">017</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">@Tab</font><font color="#000000">(</font><font color="#000000">name&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Address&#34;</font><font color="#000000">,&nbsp;propertyNames&nbsp;=&nbsp;</font><font color="#000000">{&nbsp;</font><br/>
+<font color="#808080">018</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;address1&#34;</font><font color="#000000">,&nbsp;EMPTY,&nbsp;EMPTY,&nbsp;</font><br/>
+<font color="#808080">019</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;address2&#34;</font><font color="#000000">,&nbsp;EMPTY,&nbsp;EMPTY,&nbsp;</font><font color="#2a00ff">&#34;city&#34;</font><font color="#000000">,&nbsp;</font><font color="#2a00ff">&#34;state&#34;</font><font color="#000000">,&nbsp;</font><font color="#2a00ff">&#34;zip&#34;&nbsp;</font><font color="#000000">})</font><br/>
+<font color="#808080">020</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><font color="#000000">,</font><br/>
+<font color="#808080">021</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">params&nbsp;=&nbsp;@Parameter</font><font color="#000000">(</font><font color="#000000">name&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;customParam&#34;</font><font color="#000000">,&nbsp;value&nbsp;=&nbsp;</font><font color="#000000">{&nbsp;</font><font color="#2a00ff">&#34;value1&#34;</font><font color="#000000">,&nbsp;</font><font color="#2a00ff">&#34;value2&#34;</font><font color="#000000">,&nbsp;</font><font color="#2a00ff">&#34;value3&#34;</font><font color="#000000">})</font><br/>
+<font color="#808080">022</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">)</font><font color="#000000">,</font><br/>
+<font color="#808080">023</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">024</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Inherits&nbsp;from&nbsp;default&nbsp;context.</font><br/>
+<font color="#808080">025</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">@Bean</font><font color="#000000">(</font><font color="#000000">context&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;someContext&#34;</font><font color="#000000">,&nbsp;propertyNames&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;-idNumber&#34;</font><font color="#000000">)</font><br/>
+<font color="#808080">026</font>&nbsp;<font color="#000000">})</font><br/>
+<font color="#808080">027</font>&nbsp;<font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">TestBeanWithAnnotations&nbsp;</font><font color="#7f0055"><b>implements&nbsp;</b></font><font color="#000000">Serializable&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">028</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;firstName;</font><br/>
+<font color="#808080">029</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;lastName;</font><br/>
+<font color="#808080">030</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">Integer&nbsp;idNumber;</font><br/>
+<font color="#808080">031</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;address1;</font><br/>
+<font color="#808080">032</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;address2;</font><br/>
+<font color="#808080">033</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;city;</font><br/>
+<font color="#808080">034</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;state;</font><br/>
+<font color="#808080">035</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;zip;</font><br/>
+<font color="#808080">036</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><br/>
+<font color="#808080">037</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">TestBeanWithAnnotations</font><font color="#000000">()&nbsp;{&nbsp;&nbsp;}</font><br/>
+<font color="#808080">038</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">039</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">@Property</font><font color="#000000">(</font><font color="#000000">required&nbsp;=&nbsp;true,&nbsp;maxLength&nbsp;=&nbsp;</font><font color="#990000">10</font><font color="#000000">)</font><br/>
+<font color="#808080">040</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getFirstName</font><font color="#000000">()&nbsp;{</font><br/>
+<font color="#808080">041</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">firstName;</font><br/>
+<font color="#808080">042</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">043</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">044</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setFirstName</font><font color="#000000">(</font><font color="#000000">String&nbsp;firstName</font><font color="#000000">)&nbsp;{</font><br/>
+<font color="#808080">045</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.firstName&nbsp;=&nbsp;firstName;</font><br/>
+<font color="#808080">046</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">047</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">048</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">@Property</font><font color="#000000">(</font><font color="#000000">required&nbsp;=&nbsp;</font><font color="#7f0055"><b>true</b></font><font color="#000000">)</font><br/>
+<font color="#808080">049</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getLastName</font><font color="#000000">()&nbsp;{</font><br/>
+<font color="#808080">050</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">lastName;</font><br/>
+<font color="#808080">051</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">052</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">053</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setLastName</font><font color="#000000">(</font><font color="#000000">String&nbsp;lastName</font><font color="#000000">)&nbsp;{</font><br/>
+<font color="#808080">054</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.lastName&nbsp;=&nbsp;lastName;</font><br/>
+<font color="#808080">055</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">056</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">057</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Integer&nbsp;getIdNumber</font><font color="#000000">()&nbsp;{</font><br/>
+<font color="#808080">058</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">idNumber;</font><br/>
+<font color="#808080">059</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">060</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">061</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setIdNumber</font><font color="#000000">(</font><font color="#000000">Integer&nbsp;idNumber</font><font color="#000000">)&nbsp;{</font><br/>
+<font color="#808080">062</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.idNumber&nbsp;=&nbsp;idNumber;</font><br/>
+<font color="#808080">063</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">064</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">065</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getAddress1</font><font color="#000000">()&nbsp;{</font><br/>
+<font color="#808080">066</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">address1;</font><br/>
+<font color="#808080">067</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">068</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">069</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setAddress1</font><font color="#000000">(</font><font color="#000000">String&nbsp;address1</font><font color="#000000">)&nbsp;{</font><br/>
+<font color="#808080">070</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.address1&nbsp;=&nbsp;address1;</font><br/>
+<font color="#808080">071</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">072</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">073</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getAddress2</font><font color="#000000">()&nbsp;{</font><br/>
+<font color="#808080">074</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">address2;</font><br/>
+<font color="#808080">075</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">076</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">077</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setAddress2</font><font color="#000000">(</font><font color="#000000">String&nbsp;address2</font><font color="#000000">)&nbsp;{</font><br/>
+<font color="#808080">078</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.address2&nbsp;=&nbsp;address2;</font><br/>
+<font color="#808080">079</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">080</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">081</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getCity</font><font color="#000000">()&nbsp;{</font><br/>
+<font color="#808080">082</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">city;</font><br/>
+<font color="#808080">083</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">084</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">085</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setCity</font><font color="#000000">(</font><font color="#000000">String&nbsp;city</font><font color="#000000">)&nbsp;{</font><br/>
+<font color="#808080">086</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.city&nbsp;=&nbsp;city;</font><br/>
+<font color="#808080">087</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">088</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">089</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getState</font><font color="#000000">()&nbsp;{</font><br/>
+<font color="#808080">090</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">state;</font><br/>
+<font color="#808080">091</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">092</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">093</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setState</font><font color="#000000">(</font><font color="#000000">String&nbsp;state</font><font color="#000000">)&nbsp;{</font><br/>
+<font color="#808080">094</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.state&nbsp;=&nbsp;state;</font><br/>
+<font color="#808080">095</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">096</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">097</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getZip</font><font color="#000000">()&nbsp;{</font><br/>
+<font color="#808080">098</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">zip;</font><br/>
+<font color="#808080">099</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">100</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">101</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setZip</font><font color="#000000">(</font><font color="#000000">String&nbsp;zip</font><font color="#000000">)&nbsp;{</font><br/>
+<font color="#808080">102</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.zip&nbsp;=&nbsp;zip;</font><br/>
+<font color="#808080">103</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">104</font>&nbsp;<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+  <!-- start Java2Html link -->
+   <tr>
+    <td align="right">
+<small>
+<a href="http://www.java2html.de" target="_blank">Java2html</a>
+</small>
+    </td>
+   </tr>
+  <!-- end Java2Html link -->
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+

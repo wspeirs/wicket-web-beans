@@ -1,0 +1,96 @@
+# Default specification/context for bean TestBean. Package name is optional.
+# Standard parameters are: label, actions, props, tabs, displayed, viewOnly.
+TestBean {
+	# Standard Bean-level parameters are: label, actions, props, tabs, displayed, viewOnly. In addition,
+	# you may specify Bean container-specific ones (e.g., BeanGridPanel allows "columns").
+	
+	# $(property-name) to reference a Wicket property file property (i.e., Localizer). Can be used anywhere in a value and
+	# in any kind of value.  Double quotes may be used to embed whitespace in values.
+	#label: "My ${TestBean.title} Title";   
+
+	# Defines the actions available for the bean.
+	# This is a list of action methods available on the Wicket Page that the bean
+ 	# is embedded in. These methods must be public and have the following signature:
+ 	#     public void <i>doSomething</i>(AjaxRequestTarget target, Form form, Object bean)
+ 	# The target parameter may be null for non-Ajax requests. 
+ 	# These can be referenced as "action.{action-method-name}" in props. 
+ 	# Actions not included in the "props" parameter are considered to be "global" actions
+	# that appear outside of any tabs.
+	# These are normally deduced automatically.
+		
+	#actions:  ;
+
+	# This is a list of properties that may have parameters and are presented on the page in the order specified below. 
+	# Any other properties not specified are presented at the end of the page. 
+	# Properties beginning with "action." refer to actions defined in "actions:" above, not to bean properties.
+	# If the property begins with "-", it is not displayed.
+	# The "EMPTY" pseudo-property name can be used to provide an empty field (e.g., a blank cell in a grid). 
+	# Configuration may be specified for each property within "{}". Standard configuration parameters are:
+	#   label, labelImage, viewOnly, fieldType (overrides the Field used), elementType. 
+	# For Collections, elementType is the type of the elements
+ 	# contained within the collection. If this is not specified and the collection is not 
+ 	# null and not empty, the elementType is detected from the first element of the collection.
+	# In addition, you may specify Bean container and Field-level specific parameters (e.g., BeanGridPanel allows "colspan").
+	# For action parameters, see BeanActionButton.
+	props: 
+		action.save{colspan: 3},
+		firstName{required: true},
+		lastName{required: true},
+		EMPTY,
+		activePrimitive,
+		color{required: true; customParam: value1, value2, value3},
+		# Note that only the base class name for fieldType is specified, not the package (wicket.contrib.beancomponents.fields) which is optional.
+		# This class must be in the ComponentRegistry for this to work. Otherwise, you can explicitly specify the package name. 
+		inlineBean{fieldType: BeanInlineField; colspan: 3},
+		dateTimestamp,
+		blockBean{fieldType: BeanGridField; colspan: 3},
+		testBean2{colspan: 3},
+		popupBean{colspan: 3},
+		password{fieldType: PasswordField},
+		-subComponent;  # Explicitly hides subComponent.
+
+	# Tabs are optional. Only specify the properties not on the default tab. 
+	# Each tab can define parameters. Standard parameters are: label, props.
+	tabs: 
+		nameInfo, # Default tab: no props specified, so it gets all of the bean props not used in other tabs.
+		miscInfo {
+			label: "${MiscInfo.title}";
+			props:
+				gender,
+				EMPTY,  # Empty cell/spacer.
+				age,
+				operand1,
+				operand2,
+				result{viewOnly: true},
+				# Note that only the base class name for elementType is specified, not the package, which is optional.
+				# This class must be in the same package as the bean for this to work. Otherwise, you can explicitly specify the package name. 
+				palette{elementType: TestBean$ColorEnum},
+				palette2{elementType: TestBean$ColorEnum; viewOnly: true},
+				description{fieldType: TextAreaField; rows: 5};
+		}, 
+		listOfBeans {
+			props: 
+				action.addRow{colspan: 3}, 
+				beans{viewOnly: true; rows: 20};
+		};
+}
+
+# [] specifies a specific context (e.g., a use-case). This one extends the default context implicitly.
+TestBean[view] {
+	viewOnly: true;
+}
+
+TestBean[popupView extends view] {
+	props: 
+		-color,		# Remove the color property from the default list. 
+		lastName{viewOnly: false}; # Change the parameter of lastName
+}
+
+TestBean2 {
+	props: 
+		action.deleteRow{labelImage: "remove.gif"},
+		selected{label: X},
+		firstName{viewOnly: false},
+		lastName;
+}
+

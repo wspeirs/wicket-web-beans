@@ -1,0 +1,13 @@
+# Context Example
+TestBean {
+	props: firstName, lastName, EMPTY,
+		operand1, operand2, result, -number;
+}
+
+TestBean[view] {
+	viewOnly: true;
+}
+
+TestBean[limitedEdit extends view] {
+	props: firstName{ viewOnly: false };
+}

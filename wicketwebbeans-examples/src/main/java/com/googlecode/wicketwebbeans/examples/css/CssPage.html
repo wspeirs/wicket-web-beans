@@ -1,0 +1,36 @@
+<html xmlns:wicket>
+<head>
+<wicket:head>
+    <link href="resources/bean.css" type="text/css" rel="stylesheet" ></link>
+	<title>CSS Example</title>
+</wicket:head>
+	<style>
+		.greenBeanBorder {
+			border: solid green 3px; 
+		}
+		.purpleColor .fieldLabel {
+			color: purple;
+			font-size: larger;
+		}
+		table.dataview tr.redBeanBorder {
+			border: solid red 3px; 
+		}
+		table.dataview tr.greaterThanZero {
+			background-color: green;
+		}
+		table.dataview tr.lessThanZero {
+			background-color: red;
+		}
+		.fieldPositive input {
+			color: green;
+		}
+		.fieldNegative input {
+			color: red;
+		}
+	</style>
+</head>
+<body >
+This page uses static and dynamic CSS on the beans and properties to create some really ugly color combinations.  <p/> 
+	<span wicket:id="beanForm"></span>
+</body>
+</html>

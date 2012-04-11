@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{ISO8601}] %-5p %c %m %n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG"/>
+            <param name="LevelMax" value="INFO"/>
+        </filter>
+    </appender>
+
+    <appender name="STDERR" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.err" />
+        <layout class="org.apache.log4j.PatternLayout" >
+            <param name="ConversionPattern" value="[%d{ISO8601}] %-5p %c %m %n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="WARN"/>
+            <param name="LevelMax" value="FATAL"/>
+        </filter>
+    </appender>
+
+<!--
+    <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${user.home}/output.log.xml"/>
+        <param name="MaxFileSize" value="1MB" />
+        <param name="MaxBackupIndex" value="1" />
+        <layout class="org.apache.log4j.xml.XMLLayout"/>
+    </appender>
+
+    <appender name="SOCKET" class="org.apache.log4j.net.SocketAppender">
+        <param name="RemoteHost" value="localhost"/>
+        <param name="Port" value="4445"/>
+    </appender>
+
+    <appender name="EMAIL" class="org.apache.log4j.net.SMTPAppender">
+        <param name="BufferSize" value="512" />
+        <param name="SMTPHost" value="localhost" />
+        <param name="From" value="root@localhost" />
+        <param name="To" value="root@localhost" />
+        <param name="Subject" value="ERROR" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{ISO8601}] %-5p %c %m %n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="ERROR"/>
+            <param name="LevelMax" value="FATAL"/>
+        </filter>
+    </appender>
+-->
+    <category name="org.hibernate">
+		<priority value="ERROR"/>
+	</category>
+	
+	<category name="org.apache.wicket">
+		<priority value="INFO"/>
+	</category>
+
+    <root>
+	    <level value="all" />
+    	<appender-ref ref="STDOUT"/>
+    	<appender-ref ref="STDERR"/>
+<!--
+	    <appender-ref ref="SOCKET" />
+	    <appender-ref ref="FILE"/>
+	    <appender-ref ref="EMAIL" />
+-->
+    </root>
+</log4j:configuration>

@@ -1,0 +1,11 @@
+<project name="${project.name}">
+    <body>
+        <menu name="Home Doc" >
+            <item name="About..." href="../index.html" />
+            <item name="Getting Started" href="../wiki-html/WicketWebBeans.html" />
+            <item name="Index" href="../wiki-html/AAATableOfContents.html" />
+        </menu>
+        <menu ref="modules"/>
+        <menu ref="reports" />
+    </body>
+</project>

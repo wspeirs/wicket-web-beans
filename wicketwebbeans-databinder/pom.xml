@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <name>Databinder 1.3 Support</name>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.googlecode.wicketwebbeans.databinder</groupId>
+  <artifactId>wicketwebbeans-databinder</artifactId>
+  <description>Wicket Web Beans Databinder Support</description>
+  <packaging>jar</packaging>
+  <version>1.2</version>
+  <parent>
+        <groupId>com.googlecode.wicketwebbeans.parent</groupId>
+        <artifactId>WicketWebBeans-parent</artifactId>
+        <version>1.2</version>
+  </parent>
+  <repositories>
+    <repository>
+      <id>databinder</id>
+      <name>Databinder snapshot repository</name>
+      <url>http://databinder.net/repo</url>
+    </repository>
+    <repository>
+      <id>databinder-snapshots</id>
+      <name>Databinder snapshot repository</name>
+      <url>http://databinder.net/snapshot</url>
+    </repository>
+  </repositories>
+  <dependencies>  
+    <dependency>
+        <groupId>com.googlecode.wicketwebbeans</groupId>
+        <artifactId>wicketwebbeans</artifactId>
+        <version>1.2</version>
+     </dependency>
+     <dependency>
+     	<groupId>net.databinder</groupId>
+     	<artifactId>databinder-models-hib</artifactId>
+     	<version>1.3.0</version>
+     </dependency>
+     <dependency>
+     	<groupId>net.databinder</groupId>
+     	<artifactId>databinder-components-hib</artifactId>
+     	<version>1.3.0</version>
+     </dependency>
+  </dependencies>
+</project>
+

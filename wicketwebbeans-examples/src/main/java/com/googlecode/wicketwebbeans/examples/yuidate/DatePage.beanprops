@@ -1,0 +1,3 @@
+TestBean { 
+	props: beanpropsCustomized{ format: "dd.MM.yyyy" }; 
+}

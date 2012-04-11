@@ -1,0 +1,50 @@
+Wicket Web Beans
+
+	Wicket Web Beans (WWB) is an {{{http://wicket.apache.org}Apache Wicket}} 
+	component toolkit for displaying and editing POJOs that conform to the JavaBeans 
+	specification. Web pages are automatically generated based on bean properties and 
+	certain conventions. If necessary, the layout, editability, and actions of these 
+	pages can be customized on an exception basis. In other words, the toolkit normally
+	does what you'd expect, but when it doesn't, you can override its behavior.
+
+	At the highest-level, WWB's BeanForm component provides rich AJAX form functionality. 
+	The form is embedded in a Page designed by you. This allows you to create customized 
+	page designs. Also, this allows multiple BeanForms to be incorporated on a single page. 
+	At your choosing, other lower-level components may be used independently of 
+	BeanForm (e.g., BeanGridPanel). WWB does not try to force you into a certain way of 
+	doing things, but BeanForm makes it very convenient to implement a bean-based form if 
+	you don't want to go to a lot of extra work. You focus on the model (beans), 
+	WWB handles the user interface. 
+
+	Fields within a form are dynamically sent back to the server-side bean as they are 
+	changed, which eliminates the typical form submit cycle. This makes WWB act more 
+	like a rich client application and less like a standard forms-based application.
+
+* License
+
+	Wicket Web Beans is distributed under the terms of the Apache License
+	Version 2.0. The text is included in the file LICENSE.txt in the root of the 
+	project.
+
+* Java/Application server requirements
+
+	Wicket Web Beans requires at least Java 1.5. The application server for running your web
+	application should adhere to the servlet specification version 2.3 or newer.
+
+Getting started
+
+	Check out the {{{wiki-html/WicketWebBeans.html}Getting Started}} tutorial to get 
+	started quickly with WWB.
+
+* Building Wicket from source
+
+	The WWB distribution contains the final jar file which you can use directly
+	in your applications. If you want to change the source, you can download the source distribution 
+	and build it. You build WWB using Maven 2:
+
+	[mvn package]
+	 	creates wicketwebbeans-x.y.z.jar in target/ sub-directory.
+
+	[mvn install]
+		creates wicketwebbeans-x.y.z.jar in target/ sub-directory and installs the file into your
+		local repository for use in other Maven projects.

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Parameter Reference</title>
+<style type="text/css"><!--
+body {
+	text-align:justify;
+	font: 10pt verdana, sans-serif; 
+	color: #000000; 
+	background: #ffffff;
+}
+
+.monospace {font-family:monospace;}
+
+.quote {
+	padding: 0.5em;
+	margin: 0 0 0.5em 0.5em;	
+	border: 1px solid #ccc;	
+	background: #eee;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-variant: small-caps;
+	color: #111;
+}
+
+li {
+	text-align: left
+}
+
+table {
+	border-size:0;
+}
+
+th {
+	vertical-align: top;
+	color: #FFFF99;
+	background: #0c2577;
+}
+
+td {
+	vertical-align: top;
+	padding: 1px;
+	margin; 2px;
+	font: 10pt verdana, sans-serif;
+}
+--></style>
+  </head>
+  <body>
+<h1>Parameter Reference</h1>
+<p>
+</p>
+<h1>WWB beanprops Parameter Reference</h1>
+<p>
+</p>
+<p>
+Note that any parameter value may contain a properties file macro reference in the form: <em>${propertyName}</em>.  This references a Wicket properties file property. For example:</p>
+<p>
+</p>
+<pre>    label: &quot;Text before ${some.Property} text after&quot;;</pre><p>
+</p>
+<h2>Standard Bean Parameters</h2>
+<ul><li><strong>label</strong> - Specifies a label for the bean.</li>
+</ul><p>
+   </p>
+<ul><li><strong>actions</strong> - a comma-separated list of action method names that define the actions available for the bean. This is a list of action methods available on the Wicket Page or component that the bean is embedded in. These actions can be referenced as &quot;action.{action-method-name}&quot; in props. Actions not included in the &quot;props&quot; parameter are considered to be &quot;global&quot; actions and they appear outside of any tabs. These methods must be public and have the following signature:</li>
+</ul><pre> 	public void &lt;i&gt;doSomething&lt;/i&gt;(AjaxRequestTarget target, Form form, Object bean)</pre><p>
+The target parameter may be null for non-Ajax requests. </p>
+<p>
+   </p>
+<ul><li><strong>props</strong> - This is a list of properties that may have parameters and are presented on the page in the order specified. Any other properties not specified are presented at the end of the page. Properties beginning with &quot;action.&quot; refer to actions defined in &quot;actions:&quot; above, not to bean properties. If the property name begins with &quot;-&quot;, it tells WWB not to display it. The &quot;EMPTY&quot; pseudo-property name can be used to provide an empty field (e.g., a blank cell in a grid). Configuration may be specified for each property within &quot;{}&quot; - see Standard Property Parameters below.</li>
+</ul><p>
+   </p>
+<ul><li><strong>tabs</strong> - a comma-separated list of tab names and optional parameters for each tab (see Standard Tab Parameters below).</li>
+</ul><p>
+   </p>
+<ul><li><strong>displayed</strong> - Either &quot;true&quot; or &quot;false&quot; to tell WWB whether to display the bean. This is only useful on nested beans.</li>
+</ul><p>
+     </p>
+<ul><li><strong>viewOnly</strong> - Either &quot;true&quot; or &quot;false&quot; to tell WWB whether the bean is view-only or editable by default. This overrides the viewOnly parameter on the BeanMetaData constructor. Individual properties in <strong>props</strong> may override this default.</li>
+</ul><p>
+   </p>
+<ul><li><strong>cols</strong> - Number of columns in the grid. Though not strictly a &quot;standard&quot; parameter, this is a property parameter supported by BeanGridPanel, which is the default layout used by BeanForm. See BeanGridPanel parameters for more details.</li>
+</ul><p>
+   </p>
+<ul><li><strong>rows</strong> - If the bean or bean's IModel passed to BeanForm is a List, this is the number of rows to be displayed in a single page. The default is 10.</li>
+</ul><p>
+   </p>
+<ul><li><strong>css</strong> - CSS class to be used for the bean container.</li>
+</ul><p>
+    </p>
+<ul><li><strong>dynamicCss</strong> - Dynamic CSS class method name to be used for the bean. This method must exist on your component and have the signature: public String methodName(&lt;BeanClass&gt; bean, BeanMetaData beanMetaData). See <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/css/CssPage.java.html">com.googlecode.wicketwebbeans.examples.css.CssPage</a> for an example.</li>
+</ul><p>
+       </p>
+<ul><li><strong>container</strong> - a container component to use in place of the default BeanGridPanel or BeanTablePanel. This container must be a Panel and implement a constructor of the form:</li>
+</ul><p>
+</p>
+<p>
+public Constructor(String id, final Object bean, BeanMetaData beanMetaData, TabMetaData tabMetaData)</p>
+<p>
+ </p>
+<p>
+where id = Wicket component ID</p>
+<p>
+bean = the bean, or IModel containing the bean</p>
+<p>
+beanMetaData = the BeanMetaData for bean</p>
+<p>
+tabMetaData = the tab metadata </p>
+<p>
+</p>
+<h2>Standard Property Parameters</h2>
+<ul><li><strong>label</strong> - Specifies the label for the property.</li>
+</ul><p>
+</p>
+<ul><li><strong>labelImage</strong> - An image file name relative to the component. Specifies that the property's field should have the specified image rather than a text label.</li>
+</ul><p>
+</p>
+<ul><li><strong>viewOnly</strong> - Either &quot;true&quot; or &quot;false&quot; to tell WWB whether the property is view-only (i.e., not editable).</li>
+</ul><p>
+</p>
+<ul><li><strong>fieldType</strong> - Specifies a Field class name to use for this property. This overrides the Field type defined for the property type in ComponentRegistry. Note that if the Field type is already defined for a different class in ComponentRegistry, you can just specify the base class name, not the package which is optional. Otherwise, you can explicitly specify the package name.</li>
+</ul><p>
+</p>
+<ul><li><strong>elementType</strong> - For Collections, elementType is the type of the elements contained within the collection. By default, WWB automatically deduces the element type from the collection if it is not null and not empty. In this case, elementType is detected from the first element of the collection. Otherwise, you can use this parameter to explicitly specify the type.</li>
+</ul><p>
+</p>
+<ul><li><strong>colspan</strong> - Number of columns to span in the grid. Though not strictly a &quot;standard&quot; parameter, this is a property parameter supported by BeanGridPanel, which is the default layout used by BeanForm. See BeanGridPanel parameters for more details.</li>
+</ul><p>
+   </p>
+<ul><li><strong>required</strong> - Either &quot;true&quot; or &quot;false&quot; to tell WWB whether the field is required. Note that you must call BeanForm.validateRequired() in your action method to have the validation occur. This is automatically set to true if you are using JPA and the @Column annotation has nullable set to false. If you are using the JDO @Column annotation, this is set to true if @Column.allowsNull is &quot;false&quot;.</li>
+</ul><p>
+   </p>
+<ul><li><strong>maxlength</strong> - The maximum input length for a field. This is automatically set if you are using the JPA or JDO @Column.length annotation.</li>
+</ul><p>
+   </p>
+<ul><li><strong>defaultValue</strong> - The default string value for a field. This is automatically set if you are using the JDO @Column.defaultValue annotation.</li>
+</ul><p>
+</p>
+<p>
+Actions (action.action-name) additionally support the following parameters (supported by BeanActionButton):</p>
+<p>
+</p>
+<ul><li><strong>confirm</strong> - Defines a Javascript confirmation message to display when the button is clicked. If answer is &quot;Yes&quot;, the action proceeds, otherwise it is canceled.</li>
+</ul><p>
+ </p>
+<ul><li><strong>ajax</strong> - If &quot;true&quot;, the action should be invoked with Ajax. Otherwise, it the action performs a regular form submit.</li>
+</ul><p>
+ </p>
+<ul><li><strong>default</strong> - If &quot;true&quot;, the action will be fired when the Enter key is pressed anywhere on the form.</li>
+</ul><p>
+</p>
+<ul><li><strong>rows</strong> - the number of rows to display in a BeanTableField or TextAreaField.</li>
+</ul><p>
+</p>
+<ul><li><strong>css</strong> - CSS class to be used for the bean container.</li>
+</ul><p>
+    </p>
+<ul><li><strong>dynamicCss</strong> - Dynamic CSS class method name to be used for the bean. This method must exist on your component and have the signature: public String methodName(&lt;BeanClass&gt; bean, ElementMetaData elementMetaData propertyMetaData). See <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/css/CssPage.java.html">com.googlecode.wicketwebbeans.examples.css.CssPage</a> for an example.</li>
+</ul><p>
+</p>
+<h2>Standard Tab Parameters</h2>
+<p>
+</p>
+<ul><li><strong>label</strong> - Specifies the label for the property.</li>
+</ul><p>
+   </p>
+<ul><li><strong>props</strong> - Specifies the properties and order of the properties for the tab. This is specified exactly as in the Bean &quot;props&quot; parameter (see Standard Bean Properties).</li>
+</ul><p>
+</p>
+<h2>Container-specific Parameters</h2>
+<p>
+</p>
+<h3>BeanGridPanel</h3>
+<p>
+ </p>
+<p>
+ Displays its properties in a grid. The grid is evenly spaced across the width of the window.</p>
+<p>
+ </p>
+<ul><li><strong>cols</strong> - Number of columns in the grid. Default is 3.</li>
+</ul><p>
+   </p>
+<ul><li><strong>colspan</strong> - May be specified on individual properties. This is the number of columns to span in the grid. Default is 1.</li>
+</ul><p>
+</p>
+<h3>BeanTablePanel</h3>
+<p>
+ </p>
+<p>
+Displays a collection of beans in a table. Each property of the bean is a column in the table. The table also allows sorting of bean properties that are Comparable (which includes primitive and wrapper types). Note that BeanTableField (a Field for properties that are collections) allows a &quot;rows&quot; parameter to be specified for the table.</p>
+<p>
+ </p>
+<h2>Property/Field-specific Parameters</h2>
+<p>
+ </p>
+<h3>BeanGridField</h3>
+<p>
+ </p>
+<p>
+Displays a bean in a box with a label. No field-level parameters. This is the default field for properties whose type is otherwise not mapped in ComponentRegistry.</p>
+<p>
+ </p>
+<h3>BeanInCollapsibleField</h3>
+<p>
+ </p>
+<p>
+Displays a bean in a collapsible box with a label. No field-level parameters. </p>
+<p>
+ </p>
+<h3>BeanInlineField</h3>
+<p>
+ </p>
+<p>
+Displays a bean inline with other fields on the parent bean. No field-level parameters.</p>
+<p>
+ </p>
+<h3>BeanTableField</h3>
+<p>
+ </p>
+<p>
+Displays a property's collection as a list of beans in a table. See BeanTablePanel. </p>
+<p>
+ </p>
+<ul><li><strong>rows</strong> - the number of rows to display in the table. Default is 10.</li>
+</ul><p>
+    </p>
+<h3>BeanWithParentLabelField</h3>
+<p>
+</p>
+<p>
+A Field that presents a property's bean in a panel, but the bean's properties do not have labels. For errors, the bean's properties use the parent property's label. This is useful for creating simple composite fields directly from small beans. No field-level parameters.</p>
+<p>
+</p>
+<h3>DateTimeField</h3>
+<p>
+</p>
+<ul><li><strong>format</strong> - the format of the date. The default format is based on the property type:</li>
+</ul><p>
+     java.util.Date, java.sql.Timestamp: yyyy-MM-dd HH:MM</p>
+<p>
+     java.sql.Time: HH:MM</p>
+<p>
+     java.sql.Date: yyyy-MM-dd</p>
+<p>
+     java.util.Calendar: yyyy-MM-dd HH:MM z</p>
+<p>
+     </p>
+<p>
+     You may override this defaults in the enclosing Page's properties using the following keys:</p>
+<p>
+		DateTimeField.date.format - Format for java.sql.Date.</p>
+<p>
+		DateTimeField.datetime.format - Format for java.sql.Timestamp or java.util.Date.</p>
+<p>
+		DateTimeField.time.format - Format for java.sql.Time.</p>
+<p>
+		DateTimeField.datetimetz.format - Format for java.util.Calendar types.</p>
+<p>
+</p>
+<h3>EnumField/JavaEnumField</h3>
+<p>
+</p>
+<ul><li><strong>default</strong> - specifies the default value to use from the enumeration. This value must match a value returned from the name() method.</li>
+</ul><p>
+</p>
+<h3>InputField</h3>
+<p>
+</p>
+<p>
+A common field used to accept input for a variety of primitive and wrapper property types.</p>
+<p>
+</p>
+<ul><li><strong>advOnEnter</strong> - If &quot;true&quot; this tells WWB to advance to the next field when the Enter key is pressed.</li>
+</ul><p>
+ </p>
+<h3>TextAreaField</h3>
+<p>
+ </p>
+<p>
+Defines a field for Strings that allows more than one line of input.</p>
+<p>
+ </p>
+<ul><li><strong>rows</strong> - The number of rows (lines) to be displayed for the field. Note that the input is not limited to this number of lines because a scrollbar is used. This is simply the number of lines displayed.  Default is the CSS defined height.</li>
+</ul><p>
+    </p>
+<ul><li><strong>cols</strong> - The number of columns (characters) across to be displayed for the field. Default is the CSS defined width.</li>
+</ul><p>
+ </p>
+<h2>Third-Party Annotations</h2>
+<p>
+</p>
+<p>
+Certain JDO and JPA annotations are supported. Right now, certain attributes of the @Column annotation are supported. See <em>Standard Property Parameters</em> above for more details. Also see the <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/thirdpartyannotations/AnnotationsBeanPage.java.html">com.googlecode.wicketwebbeans.examples.thirdpartyannotations.AnnotationsBeanPage</a> example.</p>
+<p>
+</p>
+<p>
+For annotations to be effective at runtime, you <strong>must</strong> have the JDO or JPA annotation classes in your classpath. For web apps, this means having the appropriate JARs in your WEB-INF/lib directory. </p>
+  </body>
+</html>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Customization</title>
+<style type="text/css"><!--
+body {
+	text-align:justify;
+	font: 10pt verdana, sans-serif; 
+	color: #000000; 
+	background: #ffffff;
+}
+
+.monospace {font-family:monospace;}
+
+.quote {
+	padding: 0.5em;
+	margin: 0 0 0.5em 0.5em;	
+	border: 1px solid #ccc;	
+	background: #eee;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-variant: small-caps;
+	color: #111;
+}
+
+li {
+	text-align: left
+}
+
+table {
+	border-size:0;
+}
+
+th {
+	vertical-align: top;
+	color: #FFFF99;
+	background: #0c2577;
+}
+
+td {
+	vertical-align: top;
+	padding: 1px;
+	margin; 2px;
+	font: 10pt verdana, sans-serif;
+}
+--></style>
+  </head>
+  <body>
+<h1>Customization</h1>
+<p>
+</p>
+<p>
+Back: <a href="Actions.html">Actions</a> Next: <a href="Tabs.html">Tabs</a></p>
+<p>
+</p>
+<p>
+WWB is a method of programming by exception. You only tell WWB to do something when its not doing what you want. Most commonly, WWB doesn't really know a good way to order fields on the page. By default, they are in alphabetical order and laid out in a three column grid. Alphabetical order isn't typically want you want, though. To change this, you can customize the WWB metadata for a bean in a number of different ways. These methods include using:</p>
+<p>
+</p>
+<ol type="1"><li>A &quot;beanprops&quot; property file. This is similar to a Wicket .properties file for your component except that it is specific to your bean.</li>
+<li>WWB annotations on your component (typically a Page), bean, and/or a special metadata class.</li>
+<li>The WWB metadata API (JBean and friends). This is mirrored after the WWB annotations.</li>
+<li>A Wicket .properties file.</li>
+<li>JDO or JPA @Column annotations on your bean properties. Note that the latest versions of Hibernate support the JPA annotations.</li>
+</ol><p>
+</p>
+<p>
+You can choose to use just one, some, or all of these methods. Your choice will be determined by your own development practices. In the following sections we'll review each of these methods in detail.   </p>
+<p>
+</p>
+<p>
+Note that in addition to these metadata customization, most of the look and feel of the page can be customized via CSS. See the <a href="CssGuide.html">CssGuide</a> for more information.</p>
+<p>
+</p>
+<h1>Using Wicket Properties Files with WWB</h1>
+<p>
+</p>
+<p>
+Let's say you don't like the generated label &quot;Operand 1&quot; and &quot;Operand 2&quot; in the previous section's example; or maybe you want to be able to localize them for another language. You can address this by adding a standard Wicket properties file called SimpleBeanPage.properties, such as: </p>
+<p>
+</p>
+<pre>	operand1.label=Enter First Value
+	operand2.label=Enter Second Value</pre><p>
+</p>
+<p>
+The default labels for these fields will be overridden. This will override the labels for the operand1 and operand2 property on <em>any</em> bean that defines those properties. To restrict this, you may prefix the property key with the bean name, such as:</p>
+<p>
+ </p>
+<pre>	TestBean.operand1.label=Enter First Value
+	TestBean.operand2.label=Enter Second Value</pre><p>
+</p>
+<p>
+WWB always tries to find the label using a key with the bean name first, then it falls back to just the property name.</p>
+<p>
+</p>
+<h1>Customization Using Beanprops</h1>
+<p>
+</p>
+<p>
+Note: If you want to use the WWB API or annotations instead of beanprops, you should still read this section. The features of the WWB API, annotations and beanprops are almost identical.</p>
+<p>
+</p>
+<p>
+A &quot;beanprops&quot; file is named like your Wicket properties and html files - it has the same based name as your Page (or component that the BeanForm is embedded in). </p>
+<p>
+</p>
+<p>
+Using the Simple Example from the previous section, let's customize it. Note that we're now using <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/simple/CustomSimpleBeanPage.java.html">com.googlecode.wicketwebbeans.examples.simple.CustomSimpleBeanPage</a> (we won't reiterate the trivial HTML and Page code here). This page also has a CustomSimpleBeanPage.beanprops file, seen below:</p>
+<p>
+</p>
+<pre>	# Customize TestBean.
+	TestBean {
+		cols: 1;
+		props: firstName, lastName, operand1, operand2, result, -number;
+	}</pre><p>
+</p>
+<p>
+This file tells WWB : whenever you see a TestBean bean, lay it out in a one-column grid (&quot;cols: 1&quot;) and display the properties (&quot;props&quot;) in the order specified. Note that you refer to JavaBean properties without the prefix of &quot;get&quot;, &quot;set&quot;, or &quot;is&quot; and the first character is lower case. Also in the &quot;props&quot; parameter, we say &quot;-number&quot;. This tells WWB to remove the &quot;number&quot; property from the page. </p>
+<p>
+</p>
+<p>
+Note that we didn't specify a package name when we wrote &quot;TestBean&quot;. The package name is optional as long as the class name is not ambiguous. WWB matches the class name first using the simple name, then using the package and class name. Again, WWB typically matches the right class. If you have two bean classes with the same name but in different packages, you'll need to specify the package name as well.    </p>
+<p>
+</p>
+<p>
+If you run this example, you'll see something like:</p>
+<p>
+</p>
+<p>
+<img alt="Eclipse:/WicketWebBeans/doc/wiki/images/CustomSimpleBeanScreenShot.png" src="workspace/WicketWebBeans/doc/wiki/images/CustomSimpleBeanScreenShot.png"/></p>
+<p>
+</p>
+<p>
+If you want to do something more sophisticated, WWB supports Wicket resources in any beanprops value. For example, you could change CustomSimpleBeanPage.beanprops as follows:</p>
+<pre>	# Customize TestBean.
+	TestBean {
+		cols: 1;
+		props: 
+			firstName, lastName, 
+			operand1{ label: &quot;My ${propertyKey} Value&quot; }, 
+			operand2, 
+			result, -number;
+	}</pre><p>
+</p>
+<p>
+You can see that you can specify parameters for each bean property. This example gives operand1 a label that is partially derived from the Wicket property &quot;propertyKey&quot;. The &quot;${xxx}&quot; macro expression syntax substitutes the properties file value for key &quot;xxx&quot; into the value for the parameter. You can intermix text and multiple macro expressions in a single value. You can use the macro expression in any value, not just labels.</p>
+<p>
+</p>
+<p>
+In CustomSimpleBeanPage, the bean is editable (i.e., not view-only), hence so are all the fields by default. The &quot;result&quot; property is view-only by default because it has no setter. If you were to pass &quot;viewOnly&quot; = true to the BeanMetaData constructor, all properties that were previously editable would be view-only. This is because bean properties inherit the bean's view-only setting. However, you can override this on a per-property basis. Let's say we change CustomSimpleBeanPage.beanprops as follows:</p>
+<p>
+</p>
+<pre>	# Customize TestBean.
+	TestBean {
+		cols: 1;
+		props: 
+			firstName, 
+			lastName{ label: &quot;Last Name (informational)&quot;; viewOnly: true }, 
+			operand1, 
+			operand2, 
+			result, -number;
+	}</pre><p>
+</p>
+<p>
+This causes the lastName property to get a different label and be view-only.</p>
+<p>
+</p>
+<p>
+You can also customize actions. In the previous <a href="Actions.html">Actions</a> section, we looked at how WWB automatically finds actions. Since the save and cancel actions in the example were not referenced in a beanprops file, WWB assumes that they are global actions for the Page. However, if wanted to place the clearLastName action next to the Last Name field, you can reference in the &quot;props&quot; parameter, like this: </p>
+<p>
+</p>
+<pre>	# Actions Example
+	TestBean {
+		props: firstName, lastName, action.clearLastName,
+			operand1, operand2, result, -number;
+	}</pre><p>
+</p>
+<p>
+It is referenced using the &quot;action.&quot; prefix to distinguish it from a regular bean property. When you click the Clear Last Name button, the last name field will clear out.</p>
+<p>
+</p>
+<p>
+You can also specify an &quot;actions&quot; parameter in the beanprops file to customize an action. You can remove actions by prefixing the action name with a dash '-'. You can also customize how an action behaves. In the action method, the AjaxRequestTarget is normally null when the action is called. If you further customize the action as shown here:</p>
+<p>
+</p>
+<pre>	# Actions Example
+	TestBean {
+		actions: save{ ajax: true };
+		props: firstName, lastName, action.clearLastName,
+			operand1, operand2, result, -number;
+	}</pre><p>
+</p>
+<p>
+it will cause the Save button to be invoked using Ajax. Hence, the AjaxRequestTarget parameter will be non-null when the action is invoked. You can also do other action customizations, as we'll see later. The end result looks like this:</p>
+<p>
+</p>
+<p>
+<img alt="Eclipse:/WicketWebBeans/doc/wiki/images/ActionBeanScreenshot.png" src="workspace/WicketWebBeans/doc/wiki/images/ActionBeanScreenshot.png"/></p>
+<p>
+</p>
+<h1>WWB Annotations</h1>
+<p>
+</p>
+<p>
+WWB provides an annotation alternative to beanprops that is type-safe and supported in your favorite IDE. Not only does this provide type-safety, but it allows your IDE to provide code completion and documentation. Keep in mind you can always use a combination of WWB annotations and beanprops if you want. Annotations do not have to completely replace beanprops, or vice versa.</p>
+<p>
+</p>
+<p>
+The WWB annotations are:</p>
+<p>
+</p>
+<ul><li>@Beans - used on the class level to hold more than one @Bean annotation. This is equivalent to a beanprops file that contains several beans.</li>
+<li>@Bean - used on the class level to describe a bean. This is equivalent to saying &quot;TestBean { ... }&quot; in a beanprops file. You can use this as a top-level annotations instead of @Beans if you are just describing a single bean.</li>
+<li>@Action - used to customize an action within @Bean.actions, or may be used on an action method directly.</li>
+<li>@Property - used to customize a property within @Bean.properties and @Tab.properties, or may be used on a bean property method directly (either a getter or setter).</li>
+<li>@Tab - used to customize a tab within @Bean.tabs.</li>
+<li>@Parameter - used to set a non-standard parameter on @Bean, @Action, @Property, and @Tab. If you need to set just a single non-standard parameter, there are short-cut attributes on these annotations: paramName and paramValue. However, 90% of the time, you won't even need to set a non-standard parameter.</li>
+</ul><p>
+</p>
+<p>
+You can apply these annotations at various points in your code, as we'll see next. Your choice of where to apply the annotations will be based on your preferences and development practices. We'll examine each of these choices next.</p>
+<p>
+</p>
+<h2>Annotations on Your Page</h2>
+<p>
+</p>
+<p>
+Placing the WWB annotations on your Page (or other component containing the form) has the most direct correspondence to the beanprops file. A beanprops file is associated with your Page due to the Wicket naming convention, so placing annotations on your Page class is very similar. Let's look at an example:  <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/annotations/AnnotationsOnPage.java.html">com.googlecode.wicketwebbeans.examples.annotations.AnnotationsOnPage</a>.</p>
+<p>
+</p>
+<p>
+Here you can see that the @Bean annotation declares two tabs (see <a href="Tabs.html">Tabs</a>), with certain properties on each. After the tab declarations, we customize the firstName and lastName properties using the @Property annotation. Also, there is an @Action annotation on the action method that customizes the action to have a confirmation message/prompt. You can see that we have fewer files now, we've elminated the beanprops file and just have two files: the Page and the HTML. These annotations are equivalent to the beanprops file:</p>
+<p>
+</p>
+<pre>    TestBean {
+        actions: save{ confirm: &quot;Are you sure you want to save?&quot; };
+        tabs: General{ 
+                props: 
+                    firstName{required: true; maxLength: 10}, 
+                    lastName{required: true},
+                    idNumber 
+              },
+              Address{ 
+                  props: 
+                      address1, EMPTY, EMPTY, 
+                      address2, EMPTY, EMPTY, city, state, zip 
+              };
+    }</pre><p>
+ </p>
+<h2>Annotations on Your Bean</h2>
+<p>
+</p>
+<p>
+You can also place annotations directly on your bean. This may arguably blur the line between the model and the view, but again it's your choice. If you're concerned about this, you can just use the more model-oriented @Property annotation and configure the view of your bean using annotations in your page or using beanprops file.</p>
+<p>
+</p>
+<p>
+Take a look at <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/annotations/TestBeanWithAnnotations.java.html">com.googlecode.wicketwebbeans.examples.annotations.TestBeanWithAnnotations</a>. These annotations functions almost exactly the same as the Page example. The only real difference is that we defined another WWB context (see <a href="BeanContexts.html">BeanContexts</a>) &quot;someContext&quot;. We also placed the @Property annotations directly on the property methods and didn't have to specify @Bean.type (this is optional). If you look at <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/annotations/AnnotationsOnBeanPage.java.html">com.googlecode.wicketwebbeans.examples.annotations.AnnotationsOnBeanPage</a> Page code, you'll see that the @Action annotation is still on the action method. </p>
+<p>
+</p>
+<p>
+You can see that it may be more natural to place the @Property annotations directly on the bean properties so both are defined in one place. If you JDO or JPA, you can also use their @Column annotations to annotate propertys. More on that later.</p>
+<p>
+</p>
+<h2>Annotations on a Special Metadata Class</h2>
+<p>
+</p>
+<p>
+Sometimes you may want to reuse bean metadata in more than one page. If you don't want to place annotations on your bean, you can create a special class (or interface) that does nothing more than declare the annotations. <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/annotations/TestBeanMetaData.java.html">com.googlecode.wicketwebbeans.examples.annotations.TestBeanMetaData</a> is an example of this. It has annotations similar to that of <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/annotations/AnnotationsOnPage.java.html">com.googlecode.wicketwebbeans.examples.annotations.AnnotationsOnPage</a>, but is reusable. To reuse it, simply pass the class to the BeanMetaData constructor:</p>
+<p>
+</p>
+<pre>        BeanMetaData meta = new BeanMetaData(bean.getClass(), null, TestBeanMetaData.class, this, null, false);</pre><p>
+</p>
+<p>
+See <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/annotations/AnnotationsOnMetaDataClassPage.java.html">com.googlecode.wicketwebbeans.examples.annotations.AnnotationsOnMetaDataClassPage</a> for the full Page code.</p>
+<p>
+</p>
+<h1>WWB Java API</h1>
+<p>
+</p>
+<p>
+WWB comes with a Java API that mirrors the functionality of the annotations. You might choose to use the API over examples if, for example, you want to do conditional configuration of the metadata. As with annotations, the API can be used in combination with annotations and beanprops. </p>
+<p>
+</p>
+<p>
+The WWB API is comprised of:</p>
+<p>
+</p>
+<ul><li>JBeans - used to hold more than one JBean. This is equivalent to a beanprops file that contains several beans.</li>
+<li>JBean - describes a bean. This is equivalent to saying &quot;TestBean { ... }&quot; in a beanprops file. You can use this directly instead of JBeans if you are just describing a single bean.</li>
+<li>JAction - used to customize an action within JBean.actions().</li>
+<li>JProperty - used to customize a property within JBean.properties and JTab.properties.</li>
+<li>JTab - used to customize a tab within JBean.tabs.</li>
+<li>JParameter - used to set a non-standard parameter on JBean, JAction, JProperty, and JTab. If you need to set just a single non-standard parameter, there are short-cut attributes on these annotations: paramName and paramValue. However, 90% of the time, you won't even need to set a non-standard parameter.</li>
+</ul><p>
+</p>
+<p>
+Here's an example of the API. It is equivalent to the annotations example (<a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/api/ApiPage.java.html">com.googlecode.wicketwebbeans.examples.api.ApiPage</a>):</p>
+<p>
+</p>
+<pre>        // Create the meta data
+        JBean jbean = new JBean(TestBean.class)
+            .tabs(
+                new JTab(&quot;General&quot;).propertyNames(&quot;firstName&quot;, &quot;lastName&quot;, &quot;idNumber&quot;),
+                new JTab(&quot;Address&quot;)
+                    .propertyNames(&quot;address1&quot;, EMPTY, EMPTY, 
+                                   &quot;address2&quot;, EMPTY, EMPTY, &quot;city&quot;, &quot;state&quot;, &quot;zip&quot;)
+            )
+            // Customize certain properties from above.
+            .properties(
+                new JProperty(&quot;firstName&quot;).required(true).maxLength(10),
+                new JProperty(&quot;lastName&quot;).required(true)
+            )
+            .actions( new JAction(&quot;save&quot;).confirm(&quot;Are you sure you want to save?&quot;) );</pre><p>
+</p>
+<p>
+</p>
+<h1>JDO and JPA Annotations</h1>
+<p>
+</p>
+<p>
+As previously mentioned, if your beans use JDO or JPA @Column annotations, WWB will extract certain information from them. </p>
+<p>
+</p>
+<p>
+JPA @Column annotations are based on javax.persistence.Column. It uses the following attributes:</p>
+<p>
+</p>
+<ul><li>If @Column.nullable is false, the property will be required.</li>
+<li>If @Column.length sets the maximum field length.</li>
+</ul><p>
+</p>
+<p>
+JDO @Column annotations must come from javax.jdo.annotations.Column - vendor-specific versions of @Column are not supported.</p>
+<p>
+</p>
+<ul><li>If @Column.defaultValue is set, the property will default to the value specified.</li>
+<li>If @Column.allowsNull is false, the property will be required.</li>
+<li>If @Column.length sets the maximum field length.</li>
+</ul><p>
+</p>
+<h1>Order of Precedence</h1>
+<p>
+</p>
+<p>
+Since you may use a combination of beanprops, WWB annotations, and JDO/JPA annotations, it is helpful to understand the order in which they are processed. One type of metadata can augment another, but if two specifications collide, you need to know which one takes precedence. For example, these two annotations declared in separate places don't collide, they augment each other:</p>
+<p>
+</p>
+<pre>        @Property(name = &quot;address&quot;, maxLength = 10)  // Defined on the bean
+
+        @Property(name = &quot;address&quot;, required = true) // Defined on the Page</pre><p>
+</p>
+<p>
+But these do collide because the specify the same attribute:</p>
+<p>
+</p>
+<pre>        @Property(name = &quot;address&quot;, required = false)  // Defined on the bean
+
+        @Property(name = &quot;address&quot;, required = true)   // Defined on the Page</pre><p>
+</p>
+<p>
+So which one takes precedence - is required true or false? WWB derives metadata in the following order:</p>
+<p>
+</p>
+<ol type="1"><li>From your bean and the Java Beans specification (you don't specify anything explicitly here).</li>
+<li>From JDO/JPA @Column and WWB @Property annotations on your bean properties.</li>
+<li>@Bean annotations on your bean.</li>
+<li>@Bean annotations on a metadata class.</li>
+<li>@Bean annotations on your Page.</li>
+<li>@Action annotations on your action methods in your Page.</li>
+<li>From your beanprops file, if any.</li>
+<li>From metadata supplied from the WWB API (JBean).</li>
+</ol><p>
+</p>
+<p>
+Back: <a href="Actions.html">Actions</a> Next: <a href="Tabs.html">Tabs</a></p>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<project name="${project.name}">
+    <body>
+        <menu name="Documentation">
+            <item name="About..." href="/index.html" />
+            <item name="Getting Started" href="/wiki-html/WicketWebBeans.html" />
+            <item name="Index" href="/wiki-html/AAATableOfContents.html" />
+        </menu>
+        <menu ref="modules"/>
+        <menu ref="reports" />
+    </body>
+    <poweredBy>
+        <logo name="Wicket Web Beans at SourceForge" href="http://sourceforge.net/projects/wicketwebbeans"
+            img="http://sflogo.sourceforge.net/sflogo.php?group_id=205206&amp;type=4" />
+        <logo name="Maven" href="http://maven.apache.org/"
+            img="http://maven.apache.org/images/logos/maven-feather.png" />
+    </poweredBy>
+</project>

@@ -1,0 +1,13 @@
+<html xmlns:wicket>
+<head>
+<wicket:head>
+    <link href="resources/bean.css" type="text/css" rel="stylesheet" ></link>
+	<title>Annotations on Metadata Class</title>
+</wicket:head>
+</head>
+<body >
+On this page, all metadata is derived from annotations on an arbitrary metadata class (TestBeanMetaData.java). First Name has a maximum length of 10; Save has a confirmation message; and both 
+First and Last Name are required fields. Save's action is customized via an @Action annotation on the action method.<p/> 
+	<span wicket:id="beanForm"></span>
+</body>
+</html>

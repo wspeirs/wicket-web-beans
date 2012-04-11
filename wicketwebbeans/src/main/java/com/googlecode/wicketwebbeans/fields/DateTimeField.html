@@ -1,0 +1,14 @@
+<html xmlns:wicket>
+<wicket:panel>
+  <div class="dateTimeField" wicket:id="frag"></div>
+</wicket:panel>
+
+<wicket:fragment wicket:id="editor">
+      <nobr><input type="text" wicket:id="dateTextField" class="dateEditorTextField"/>
+      <span wicket:id="datePicker" class="dateEditorPicker">[] </span><span wicket:id="timezone">CST</span></nobr>
+</wicket:fragment>
+
+<wicket:fragment wicket:id="viewer">
+      <nobr><span wicket:id="date">2007-08-08 10:10:10</span></nobr>
+</wicket:fragment>
+</html>

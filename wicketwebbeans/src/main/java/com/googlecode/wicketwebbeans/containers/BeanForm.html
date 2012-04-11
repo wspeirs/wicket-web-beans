@@ -1,0 +1,35 @@
+<html xmlns:wicket>
+<head>
+<wicket:head>
+  <wicket:link><script src="BeanForm.js" ></script></wicket:link>
+</wicket:head>
+</head>
+<body>
+<wicket:panel>
+<form wicket:id="f" onkeypress="return bfHandleGlobalKeyEvent(event);">
+<input wicket:id="focusField" type="hidden" value=""/>
+<table class="beanFormTopContent" cellspacing="0" cellpadding="0">
+  <tbody><tr>
+    <td class="beanFormTitle" wicket:id="title">Title</td>
+    <td class="beanFormActionContainer">
+    	<span wicket:id="actions"><span wicket:id="action">[action]</span></span>
+    </td>
+    <td>&nbsp;</td>
+  </tr></tbody>
+</table>
+
+<div id="beanFormIndicatorOff"></div><div id="beanFormIndicatorOn"></div><div id="beanFormIndicatorError" style="display:none" wicket:id="beanFormIndicatorErrorLabel"></div>
+<div class="beanFormFeedback" >
+  <span wicket:id = "feedback">msg</span>
+</div>
+
+<div class="beanTabContainer" wicket:id="tabs" >
+  [Tabs Appear Here]
+</div>
+<script type="text/javascript">
+  bfRefocus();
+</script>
+</form>
+</wicket:panel>
+</body>
+</html>

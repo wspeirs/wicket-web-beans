@@ -1,0 +1,4 @@
+Car {
+	cols: 1;
+	props:	make, model{ makeProp: make }; 
+}

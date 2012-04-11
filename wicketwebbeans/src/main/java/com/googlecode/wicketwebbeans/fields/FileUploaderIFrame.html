@@ -1,0 +1,30 @@
+<html xmlns:wicket>
+
+<head>
+<script>
+function showFileUploaderFieldIndicator() {
+  document.images[0].style.display = 'inline';
+  // delay the submit a bit so it can locally shine
+  setTimeout(function() { document.forms[0].submit() }, 500);
+  return false;
+}
+</script>
+<style>
+.fileUploaderFieldClientFileName {
+	color: blue;
+	font-style: italic;
+	font-size: smaller;
+}
+</style>
+</head>
+
+<body style="margin: 0px; padding: 0px;">
+  <form wicket:id="form">
+	<input wicket:id="file" type="file"/><img wicket:id="indicator" style="display:none"/>
+	<br/><span class="fileUploaderFieldClientFileName" wicket:id="clientFileName"></span>
+  </form>
+
+  <script wicket:id="onUploaded" type="text/javascript"></script>
+  <script>wicketAjaxDebugEnable=false;</script>
+</body>
+</html>

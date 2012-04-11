@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="WicketWebBeans">
+        <wb-resource deploy-path="/" source-path="/wicketwebbeans-examples/src/main/webapp"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/wicketwebbeans-examples/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/wicketwebbeans/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/wicketwebbeans/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/wicketwebbeans-examples/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/wicketwebbeans-databinder-1.2/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/wicketwebbeans-databinder-1.2-examples/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/wicketwebbeans-databinder/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/wicketwebbeans-databinder-examples/src/main/java"/>
+        <property name="java-output-path" value="build/classes"/>
+        <property name="context-root" value="WicketWebBeans"/>
+    </wb-module>
+</project-modules>

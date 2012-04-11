@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Tabs</title>
+<style type="text/css"><!--
+body {
+	text-align:justify;
+	font: 10pt verdana, sans-serif; 
+	color: #000000; 
+	background: #ffffff;
+}
+
+.monospace {font-family:monospace;}
+
+.quote {
+	padding: 0.5em;
+	margin: 0 0 0.5em 0.5em;	
+	border: 1px solid #ccc;	
+	background: #eee;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-variant: small-caps;
+	color: #111;
+}
+
+li {
+	text-align: left
+}
+
+table {
+	border-size:0;
+}
+
+th {
+	vertical-align: top;
+	color: #FFFF99;
+	background: #0c2577;
+}
+
+td {
+	vertical-align: top;
+	padding: 1px;
+	margin; 2px;
+	font: 10pt verdana, sans-serif;
+}
+--></style>
+  </head>
+  <body>
+<h1>Tabs</h1>
+<p>
+Back: <a href="Actions.html">Actions</a> Next: <a href="BeanContexts.html">BeanContexts</a></p>
+<p>
+</p>
+<p>
+</p>
+<p>
+There may be many times when you have more information for a form than can fit on a single page. One method of splitting up this information is to group it into tabs. Of course, WWB makes tabs easy too. Let's look at <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/tabs/TabBeanPage.java.html">com.googlecode.wicketwebbeans.examples.tabs.TabBeanPage</a>. The Java code is exactly the same as ActionBeanPage, but the beanprops are a little different:</p>
+<p>
+</p>
+<pre>	# Tabs Example
+	TestBean {
+		props: -number;
+		
+		tabs: 
+			name { props: firstName, lastName, action.clearLastName },
+			calculator { props: operand1, operand2, result }; 
+	}</pre><p>
+</p>
+<p>
+Here we just use TestBean &quot;props&quot; to specify the properties we don't want. &quot;name&quot; and &quot;calculator&quot; specify the tab groupings. We specify a &quot;props&quot; parameter for each tab to say which properties fall on which tab, and in what order. The result looks like:  </p>
+<p>
+</p>
+<p>
+<img alt="Eclipse:/WicketWebBeans/doc/wiki/images/TabBeanScreenshot.png" src="workspace/WicketWebBeans/doc/wiki/images/TabBeanScreenshot.png"/></p>
+<p>
+</p>
+<p>
+Alternately we could configure all of the properties in TestBean's &quot;props&quot; if we wanted. By default all properties that weren't specified for a tab fall in the first tab, so we could have said: </p>
+<p>
+ </p>
+<pre>	# Tabs Example
+	TestBean {
+		props: firstName, lastName, action.clearLastName, -number;
+		
+		tabs: 
+			name, calculator { props: operand1, operand2, result }; 
+	}</pre><p>
+</p>
+<p>
+and gotten the same result.</p>
+<p>
+</p>
+<p>
+Back: <a href="Actions.html">Actions</a> Next: <a href="BeanContexts.html">BeanContexts</a></p>
+  </body>
+</html>

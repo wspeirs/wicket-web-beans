@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Simple Example</title>
+<style type="text/css"><!--
+body {
+	text-align:justify;
+	font: 10pt verdana, sans-serif; 
+	color: #000000; 
+	background: #ffffff;
+}
+
+.monospace {font-family:monospace;}
+
+.quote {
+	padding: 0.5em;
+	margin: 0 0 0.5em 0.5em;	
+	border: 1px solid #ccc;	
+	background: #eee;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-variant: small-caps;
+	color: #111;
+}
+
+li {
+	text-align: left
+}
+
+table {
+	border-size:0;
+}
+
+th {
+	vertical-align: top;
+	color: #FFFF99;
+	background: #0c2577;
+}
+
+td {
+	vertical-align: top;
+	padding: 1px;
+	margin; 2px;
+	font: 10pt verdana, sans-serif;
+}
+--></style>
+  </head>
+  <body>
+<h1>Simple Example</h1>
+<p>
+Back: <a href="Requirements.html">Requirements</a> Next: <a href="Actions.html">Actions</a></p>
+<p>
+</p>
+<p>
+Let's take a look at a simple bean from the examples: <a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/simple/TestBean.java.html">com.googlecode.wicketwebbeans.examples.simple.TestBean</a></p>
+<p>
+</p>
+<p>
+This is a Java Bean compliant POJO. As most people know, getters start with &quot;get&quot; or &quot;is&quot; and setters start with &quot;set&quot;. Java Beans also require a public no-argument constructor, which we have. All beans must be Serializable by Wicket convention.</p>
+<p>
+</p>
+<p>
+This bean also implements PropertyChangeListeners and Events. This is an optional part of the Java Beans spec. However, if your bean implements add/removePropertyChangeListener(), BeanForm will automatically register itself as a listener to your bean. In this example, we're going to use PropertyChangeEvents to notify BeanForm when dependent properties change. </p>
+<p>
+</p>
+<p>
+If you don't implement PropertyChangeListeners, BeanForm already knows if a single property changes from a change on the form. For example, setFirstName() automatically changes the input value to upper case. BeanForm knows to refresh this field on the form because the user changed it. If you type &quot;xyzzy&quot; in the First Name field and tab or click away from the field, the field is sent to the bean and the field is dynamically refreshed to it's new value &quot;XYZZY&quot;.</p>
+<p>
+</p>
+<p>
+Before we get too deep, let's take a look at the Wicket page (<a href="workspace/WicketWebBeans/wicketwebbeans-examples/src/main/java/net/sourceforge/wicketwebbeans/examples/simple/SimpleBeanPage.java.html">com.googlecode.wicketwebbeans.examples.simple.SimpleBeanPage</a>) and HTML:</p>
+<p>
+</p>
+<pre>	&lt;html xmlns:wicket&gt;
+	&lt;head&gt;
+	&lt;wicket:head&gt;
+	    &lt;wicket:link&gt;&lt;link href=&quot;bean.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; &gt;&lt;/link&gt;&lt;/wicket:link&gt;
+		&lt;title&gt;Simple Bean Page&lt;/title&gt;
+	&lt;/wicket:head&gt;
+	&lt;/head&gt;
+	&lt;body &gt;
+		&lt;span wicket:id=&quot;beanForm&quot;&gt;&lt;/span&gt;
+	&lt;/body&gt;
+	&lt;/html&gt;</pre><p>
+</p>
+<p>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter V4.1 2004 by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#808080">01</font>&nbsp;<font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.examples.simple;</font><br/>
+<font color="#808080">02</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">03</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.containers.BeanForm;</font><br/>
+<font color="#808080">04</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.googlecode.wicketwebbeans.model.BeanMetaData;</font><br/>
+<font color="#808080">05</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">06</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">org.apache.wicket.markup.html.WebPage;</font><br/>
+<font color="#808080">07</font>&nbsp;<font color="#ffffff"></font><br/>
+<font color="#808080">08</font>&nbsp;<font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">SimpleBeanPage&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">WebPage</font><br/>
+<font color="#808080">09</font>&nbsp;<font color="#000000">{</font><br/>
+<font color="#808080">10</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">SimpleBeanPage</font><font color="#000000">()</font><br/>
+<font color="#808080">11</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">{</font><br/>
+<font color="#808080">12</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">TestBean&nbsp;bean&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">TestBean</font><font color="#000000">()</font><font color="#000000">;</font><br/>
+<font color="#808080">13</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">BeanMetaData&nbsp;meta&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BeanMetaData</font><font color="#000000">(</font><font color="#000000">bean.getClass</font><font color="#000000">()</font><font color="#000000">,&nbsp;null,&nbsp;this,&nbsp;null,&nbsp;</font><font color="#7f0055"><b>false</b></font><font color="#000000">)</font><font color="#000000">;</font><br/>
+<font color="#808080">14</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">add</font><font color="#000000">(&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BeanForm</font><font color="#000000">(</font><font color="#2a00ff">&#34;beanForm&#34;</font><font color="#000000">,&nbsp;bean,&nbsp;meta</font><font color="#000000">)&nbsp;)</font><font color="#000000">;</font><br/>
+<font color="#808080">15</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br/>
+<font color="#808080">16</font>&nbsp;<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+  <!-- start Java2Html link -->
+   <tr>
+    <td align="right">
+<small>
+<a href="http://www.java2html.de" target="_blank">Java2html</a>
+</small>
+    </td>
+   </tr>
+  <!-- end Java2Html link -->
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+</p>
+<p>
+</p>
+<p>
+You can see this is pretty simple. There is only a single component added to the page - &quot;beanForm&quot; - which is an instance of <a href="workspace/WicketWebBeans/wicketwebbeans/src/main/java/net/sourceforge/wicketwebbeans/containers/BeanForm.java.html">com.googlecode.wicketwebbeans.containers.BeanForm</a>. You can see in the constructor that we create an instance of TestBean which is passed to BeanForm. We also create an instance of <a href="workspace/WicketWebBeans/wicketwebbeans/src/main/java/net/sourceforge/wicketwebbeans/model/BeanMetaData.java.html">com.googlecode.wicketwebbeans.model.BeanMetaData</a>. BeanMetaData reflects on the TestBean class to derive the fields and actions for the form.</p>
+<p>
+</p>
+<p>
+Note that you can also pass a Wicket IModel that contains your bean, rather than the bean itself, to BeanForm. If the bean is a List, or the IModel contains a List, the results will be displayed as a data table.</p>
+<p>
+</p>
+<p>
+If you bring up this page in a browser (see <a href="RunningSamples.html">RunningSamples</a>), you will see something like:</p>
+<p>
+</p>
+<p>
+<img alt="Eclipse:/WicketWebBeans/doc/wiki/images/SimpleBeanScreenShot.png" src="workspace/WicketWebBeans/doc/wiki/images/SimpleBeanScreenShot.png"/></p>
+<p>
+</p>
+<p>
+Note that &quot;Result&quot; is not editable because there is no setter method on the bean. Also, if you type numbers into Operand 1 and Operand 2, you'll see that the Result field automatically is calculated and updated. The calculation is done by TestBean and the PropertyChangeEvents are notifying WWB to update the result field.</p>
+<p>
+</p>
+<p>
+As we mentioned, BeanMetaData represents the metadata for a bean properties and actions. By default, the metadata originates by convention:</p>
+<p>
+</p>
+<ul><li>Label names for properties are derived from the property name. E.g., &quot;customerName&quot; becomes &quot;Customer Name&quot;; &quot;address2&quot; becomes &quot;Address 2&quot; (or from the JavaBean BeanInfo &quot;displayName&quot;).</li>
+<li>Field components for the Java primitive/wrapper types, enum types, java.util.Date and java.util.Calendar thier sub-classes, and java.util.Lists are pre-configured.</li>
+<li>All JavaBean properties are displayed. Non-JavaBean methods are not displayed.</li>
+<li>All fields are editable if viewOnly is false (see the BeanMetaData constructor). Otherwise they are all view-only.</li>
+<li>If a property is not writable, it is displayed view-only.</li>
+<li>If your beans use JPA or JDO, other property aspects can be controlled by annotations available in these APIs.</li>
+<li>Actions are derived from action methods defined on the component (e.g., the Page). See Actions below.</li>
+<li>All fields are displayed in alphabetical order by property name.</li>
+<li>All fields are displayed in a single page. (Known as the &quot;default tab&quot;, but the tab is hidden).</li>
+</ul><p>
+</p>
+<p>
+Field types are deduced from the property's Java type. The mappings from the property's Java class to the <a href="workspace/WicketWebBeans/wicketwebbeans/src/main/java/net/sourceforge/wicketwebbeans/fields/Field.java.html">com.googlecode.wicketwebbeans.fields.Field</a> type is done by <a href="workspace/WicketWebBeans/wicketwebbeans/src/main/java/net/sourceforge/wicketwebbeans/model/ComponentRegistry.java.html">com.googlecode.wicketwebbeans.model.ComponentRegistry</a>. ComponentRegistry has mappings for most common types and more types can be added if necessary. Also, Field types may be overridden for a specific property in the &quot;beanprops&quot; file, which we'll discuss later.  </p>
+<p>
+</p>
+<p>
+Back: <a href="Requirements.html">Requirements</a> Next: <a href="Actions.html">Actions</a></p>
+  </body>
+</html>

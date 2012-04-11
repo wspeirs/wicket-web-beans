@@ -1,0 +1,7 @@
+# Enum Bean Example
+Customer {
+	cols: 1;
+	props: 
+		firstName, lastName,
+		customerType{defaultValue: Government};
+}

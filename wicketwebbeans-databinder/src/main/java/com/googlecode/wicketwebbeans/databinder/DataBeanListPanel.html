@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<wicket:head>
+  <title></title>
+  <link href="resources/bean.css" type="text/css" rel="stylesheet" ></link>
+</wicket:head>
+</head>
+<body>
+	<wicket:panel>
+		<span wicket:id="label">this title will be replaced</span>
+		<div wicket:id="search">
+	        <!-- The live search panel's (more complicated) contents will replace this filler,
+	                but should render about the same. -->
+	        <input type="submit" value="Search"/>
+	        <input type="text" />
+		</div>
+		<form wicket:id="form">
+			<span wicket:id="beanTable"></span>
+		</form>
+	</wicket:panel>
+</body>
+</html>
