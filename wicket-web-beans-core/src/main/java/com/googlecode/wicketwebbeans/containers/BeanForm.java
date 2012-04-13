@@ -5,9 +5,9 @@
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
-   
+
         http://www.apache.org/licenses/LICENSE-2.0
-   
+
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,14 +26,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.IAjaxCallDecorator;
 import org.apache.wicket.ajax.form.AjaxFormValidatingBehavior;
 import org.apache.wicket.behavior.AbstractBehavior;
-import org.apache.wicket.behavior.IBehavior;
+import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
@@ -46,6 +45,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.HiddenField;
+import org.apache.wicket.markup.html.form.IFormSubmitter;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -57,6 +57,8 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.util.string.Strings;
+import org.apache.wicket.util.visit.IVisit;
+import org.apache.wicket.util.visit.IVisitor;
 
 import com.googlecode.wicketwebbeans.actions.BeanActionButton;
 import com.googlecode.wicketwebbeans.fields.AbstractField;
@@ -92,7 +94,7 @@ import com.googlecode.wicketwebbeans.model.TabMetaData;
 public class BeanForm extends Panel
 {
     public static final String PARAM_ROWS = "rows";
-    
+
     private static Logger logger = Logger.getLogger(BeanForm.class.getName());
     private static final long serialVersionUID = -7287729257178283645L;
     private static Class<?>[] CONTAINER_CONSTRUCTOR_PARAMS = { String.class, Object.class, BeanMetaData.class, TabMetaData.class };
@@ -106,7 +108,7 @@ public class BeanForm extends Panel
 
     /** Maps components in this form to their properties. */
     private Set<ComponentPropertyMapping> componentPropertyMappings = new HashSet<ComponentPropertyMapping>(200);
-    /** Components that should be refreshed on the new Ajax Component update. */ 
+    /** Components that should be refreshed on the new Ajax Component update. */
     private Set<ComponentPropertyMapping> refreshComponents = new HashSet<ComponentPropertyMapping>(200);
     /** Form submit recursion counter. Zero means we're not validating currently. */
     private int submitCnt = 0;
@@ -115,7 +117,7 @@ public class BeanForm extends Panel
     private Object bean;
     private BeanMetaData beanMetaData;
     private Class<? extends Panel> container;
-    
+
     /**
      * Construct a new BeanForm.
      *
@@ -124,13 +126,13 @@ public class BeanForm extends Panel
      *  The bean may be a List or, if an IModel, a model that returns a List. If so, the bean is display is
      *  displayed using BeanTablePanel. Otherwise BeanGridPanel is used.
      * @param beanMetaData the meta data for the bean. If bean is a List or model of a List, then this must be
-     *  the BeanMetaData for a single element (row) of the List. 
+     *  the BeanMetaData for a single element (row) of the List.
      */
     public BeanForm(String id, final Object bean, final BeanMetaData beanMetaData)
     {
         this(id, bean, beanMetaData, null);
     }
-    
+
     /**
      * Construct a new BeanForm.
      *
@@ -158,32 +160,32 @@ public class BeanForm extends Panel
         this.bean = bean;
         this.beanMetaData = beanMetaData;
         this.container = container;
-        
+
         form = new Form("f") {
             // Track whether the form is in submit processing.
             @Override
-            public boolean process()
+            public void process(IFormSubmitter submittingComponent)
             {
                 ++submitCnt;
                 try {
-                    return super.process();
+                    super.process(submittingComponent);
                 }
                 finally {
                     --submitCnt;
                 }
             }
         };
-        
+
         form.setOutputMarkupId(true);
         add(form);
-        
+
         String title = beanMetaData.getLabel();
         form.add( new Label("title", title) );
-        
+
         form.add( new Label("beanFormIndicatorErrorLabel", new ResourceModel("beanFormError.msg", "An error occurred on the server. Your session may have timed out.")));
-        
+
         beanMetaData.consumeParameter(PARAM_ROWS);
-        
+
         final HiddenField hiddenFocusField = new HiddenField<String>("focusField", new PropertyModel<String>(this, "focusField"));
         hiddenFocusField.add( new AbstractBehavior() {
             @Override
@@ -193,37 +195,37 @@ public class BeanForm extends Panel
                 super.onComponentTag(component, tag);
             }
         });
-        
+
         form.add(hiddenFocusField);
-        
+
         formVisitor = new FormVisitor();
 
         createTabs(bean, beanMetaData, container);
 
         // Use a FeedbackMessageFilter to handle messages for multiple BeanForms on a page. This is because messages are stored on the session.
         IFeedbackMessageFilter feedbackFilter = new IFeedbackMessageFilter() {
-                public boolean accept(FeedbackMessage message)
-                {
-                    // If the reporter is a field and this is refreshing because of a non-Ajax form submit, it's very likely that the field has been detached
-                    // from its parent because it is in a list view. As a result, findParent doesn't return the BeanForm.
-                    Component reporter = message.getReporter();
-                    AbstractField reporterField = (AbstractField)(reporter instanceof AbstractField ? reporter : reporter.findParent(AbstractField.class));
-                    if (reporterField != null) {
-                        return reporterField.getBeanForm().getId().equals(BeanForm.this.getId());
-                    }
-                    
-                    Component parent = (reporter instanceof BeanForm ? reporter : reporter.findParent(BeanForm.class));
-                    return reporter == BeanForm.this || parent == null || parent == BeanForm.this;
+            public boolean accept(FeedbackMessage message)
+            {
+                // If the reporter is a field and this is refreshing because of a non-Ajax form submit, it's very likely that the field has been detached
+                // from its parent because it is in a list view. As a result, findParent doesn't return the BeanForm.
+                Component reporter = message.getReporter();
+                AbstractField reporterField = (AbstractField)(reporter instanceof AbstractField ? reporter : reporter.findParent(AbstractField.class));
+                if (reporterField != null) {
+                    return reporterField.getBeanForm().getId().equals(BeanForm.this.getId());
                 }
+
+                Component parent = (reporter instanceof BeanForm ? reporter : reporter.findParent(BeanForm.class));
+                return reporter == BeanForm.this || parent == null || parent == BeanForm.this;
+            }
         };
-        
+
         feedback = new FeedbackPanel("feedback", feedbackFilter);
         feedback.setOutputMarkupId(true);
-        form.add(feedback);        
+        form.add(feedback);
 
         createGlobalActions();
     }
-    
+
     /**
      * Creates the tabs for the form.
      *
@@ -305,7 +307,7 @@ public class BeanForm extends Panel
         if (containerClass == null) {
             containerClass = beanMetaData.getContainerClass();
         }
-        
+
         if (containerClass != null) {
             try {
                 Constructor<? extends Panel> constructor = containerClass.getConstructor(CONTAINER_CONSTRUCTOR_PARAMS);
@@ -315,13 +317,13 @@ public class BeanForm extends Panel
                 throw new RuntimeException("Error instantiating container", e);
             }
         }
-        
+
         boolean isList = (bean instanceof List);
         if (bean instanceof IModel) {
             Object modelBean = ((IModel)bean).getObject();
             isList = (modelBean instanceof List);
         }
-        
+
         if (isList) {
             // BeanTablePanel expects a model. Wrap bean if necessary.
             IModel model;
@@ -331,7 +333,7 @@ public class BeanForm extends Panel
             else {
                 model = new Model<Serializable>((Serializable) bean);
             }
-            
+
             // Get Number of rows from parameters
             int rows = beanMetaData.getIntParameter(PARAM_ROWS, 10);
             return new BeanTablePanel(panelId, model, beanMetaData, rows);
@@ -339,7 +341,7 @@ public class BeanForm extends Panel
 
         return new BeanGridPanel(panelId, bean, beanMetaData, tabMetaData);
     }
-    
+
     /**
      * Finds the BeanForm that is the parent of the given childComponent.
      *
@@ -352,10 +354,10 @@ public class BeanForm extends Panel
         if (childComponent == null) {
             return null;
         }
-        
+
         return childComponent.findParent(BeanForm.class);
     }
-    
+
     /**
      * Determines if the BeanForm associated with childComponent is currently in a form
      * submit phase.
@@ -370,21 +372,21 @@ public class BeanForm extends Panel
         if (beanForm != null) {
             return beanForm.submitCnt > 0;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Rather than using Wicket's required field validation, which doesn't play well with Ajax and forms,
      * allow validation of fields on actions. User must call this from the action method.
-     * Adds errors to the page if empty required fields are found. 
+     * Adds errors to the page if empty required fields are found.
      *
      * @return true if validation was successful, else false if errors were found.
      */
     public boolean validateRequired()
     {
         RequiredFieldValidator validator = new RequiredFieldValidator();
-        
+
         // If we have a tabbed panel, we have to go thru each tab and validate it because the components for a tab are only created
         // when the tab is open.
         if (tabbedPanel == null) {
@@ -392,7 +394,7 @@ public class BeanForm extends Panel
         }
         else {
             for (ITab tab : tabbedPanel.getTabs()) {
-                Panel panel = tab.getPanel("x");
+                WebMarkupContainer panel = tab.getPanel("x");
                 // Needs to be part of the page for errors.
                 getPage().add(panel);
                 // Cause ListViews to be populated.
@@ -401,10 +403,10 @@ public class BeanForm extends Panel
                 getPage().remove(panel);
             }
         }
-        
+
         return !validator.errorsFound;
     }
-    
+
     /**
      * Registers the given component with this form. This is usually called by Fields
      * (for example, see {@link AbstractField}) to add the form behavior to their
@@ -418,7 +420,7 @@ public class BeanForm extends Panel
     {
         ComponentPropertyMapping mapping = new ComponentPropertyMapping(beanModel, element);
         componentPropertyMappings.add(mapping);
-            
+
         // Make sure we don't register ourself twice.
         if (beanModel != null && beanModel.getBeanForm() == null) {
             // Listen for PropertyChangeEvents on this bean, if necessary.
@@ -427,7 +429,7 @@ public class BeanForm extends Panel
             element.getBeanMetaData().addPropertyChangeListener(beanModel, listener);
             beanModel.setBeanForm(this);
         }
-        
+
         if (component instanceof MarkupContainer) {
             ((MarkupContainer)component).visitChildren(formVisitor);
         }
@@ -435,8 +437,8 @@ public class BeanForm extends Panel
             component.add(new FormSubmitter("onchange"));
         }
     }
-    
-    
+
+
     /**
      * Gets the listener.
      *
@@ -456,7 +458,7 @@ public class BeanForm extends Panel
     {
         setFocusField( component == null ? null : component.getId() );
     }
-    
+
     /**
      * Gets the focusField.
      *
@@ -484,7 +486,7 @@ public class BeanForm extends Panel
     {
         return !refreshComponents.isEmpty();
     }
-    
+
     /**
      * Clears the components that would be refreshed if {@link #refreshComponents(AjaxRequestTarget, Component)} were called.
      */
@@ -492,7 +494,7 @@ public class BeanForm extends Panel
     {
         refreshComponents.clear();
     }
-    
+
     /**
      * Refresh the targetComponent, in addition to any components that need to be updated
      * due to property change events.
@@ -505,13 +507,15 @@ public class BeanForm extends Panel
         if (targetComponent != null) {
             refreshComponent(target, targetComponent);
         }
-        
+
         if (!refreshComponents.isEmpty()) {
             // Refresh components fired from our PropertyChangeListener.
-            
-            // Visit all children and see if they match the fired events. 
-            form.visitChildren( new IVisitor<Component>() {
-                public Object component(Component component)
+
+            // Visit all children and see if they match the fired events.
+            form.visitChildren(new IVisitor<Component, Object>() {
+
+                @Override
+                public void component(Component component, IVisit<Object> visit)
                 {
                     Object model = component.getDefaultModel();
                     if (model instanceof BeanPropertyModel) {
@@ -524,8 +528,6 @@ public class BeanForm extends Panel
                             }
                         }
                     }
-
-                    return IVisitor.CONTINUE_TRAVERSAL;
                 }
             });
 
@@ -543,23 +545,22 @@ public class BeanForm extends Panel
         else {
             field = targetComponent.findParent(AbstractField.class);
         }
-        
+
         if (field != null) {
             if (!field.getRenderBodyOnly()) {
                 target.addComponent(field);
             }
             else {
                 // Field is RenderBodyOnly, have to add children individually
-                field.visitChildren( new IVisitor<Component>() {
-                    public Object component(Component component)
+                field.visitChildren( new IVisitor<Component, Object>() {
+                    @Override
+                    public void component(Component component, IVisit<Object> visit)
                     {
                         if (!component.getRenderBodyOnly()) {
                             target.addComponent(component);
                         }
-                        
-                        return IVisitor.CONTINUE_TRAVERSAL;
                     }
-                    
+
                 });
             }
         }
@@ -569,7 +570,7 @@ public class BeanForm extends Panel
     }
 
     /**
-     * Monitors tab panel submits. 
+     * Monitors tab panel submits.
      */
     private final class TabbedPanelSubmitLink extends SubmitLink
     {
@@ -597,20 +598,22 @@ public class BeanForm extends Panel
         }
     }
 
-    private final class FormVisitor implements IVisitor<Component>, Serializable
+    private final class FormVisitor implements IVisitor<Component, Object>, Serializable
     {
         private static final long serialVersionUID = 4187721147178283645L;
-        public Object component(Component component) 
+
+        @Override
+        public void component(Component component, IVisit<Object> visit)
         {
             if (component instanceof FormComponent) {
                 boolean addBehavior = true;
-                for (IBehavior behavior : component.getBehaviors()) {
+                for (Behavior behavior : component.getBehaviors()) {
                     if (behavior instanceof FormSubmitter) {
                         addBehavior = false;
                         break;
                     }
                 }
-                
+
                 if (addBehavior) {
                     FormSubmitter behavior = new FormSubmitter("onchange");
                     // Note: Do NOT set a delay. The delay can cause an onchange to be sent AFTER a button submit
@@ -620,8 +623,6 @@ public class BeanForm extends Panel
                     component.add( new SimpleAttributeModifier("onfocus", "bfOnFocus(this)") );
                 }
             }
-            
-            return IVisitor.CONTINUE_TRAVERSAL;
         }
     }
 
@@ -638,13 +639,13 @@ public class BeanForm extends Panel
         {
             /*
             // NOTE: The following code fails to clear off field errors that have been corrected.
-             
+
             // Only refresh messages if we have one. Otherwise previous error messages go away on the
             // first field change.
             if (form.getPage().hasFeedbackMessage()) {
                 super.onSubmit(target);
             }
-            */
+             */
             super.onSubmit(target);
             refreshComponents(target, getComponent() );
         }
@@ -655,35 +656,38 @@ public class BeanForm extends Panel
             super.onError(target);
             refreshComponents(target, getComponent() );
         }
-        
+
         @Override
         protected IAjaxCallDecorator getAjaxCallDecorator()
         {
             return AjaxBusyDecorator.INSTANCE;
         }
     }
-    
+
     public static final class AjaxBusyDecorator implements IAjaxCallDecorator
     {
         private static final long serialVersionUID = 1287721257178963345L;
         public static final AjaxBusyDecorator INSTANCE = new AjaxBusyDecorator();
 
-        public CharSequence decorateOnFailureScript(CharSequence script)
+        @Override
+        public CharSequence decorateOnFailureScript(Component component, CharSequence script)
         {
             return "bfIndicatorError();" + script;
         }
 
-        public CharSequence decorateOnSuccessScript(CharSequence script)
+        @Override
+        public CharSequence decorateOnSuccessScript(Component component, CharSequence script)
         {
             return "bfIndicatorOff();" + script;
         }
 
-        public CharSequence decorateScript(CharSequence script)
+        @Override
+        public CharSequence decorateScript(Component component, CharSequence script)
         {
             return "bfIndicatorOn(); " + script;
         }
     }
-    
+
     /**
      * Simple data structure for mapping components and properties. <p>
      */
@@ -693,14 +697,14 @@ public class BeanForm extends Panel
         /** IModel holding the bean. */
         private BeanPropertyModel beanModel;
         private ElementMetaData elementMetaData;
-        
+
         ComponentPropertyMapping(BeanPropertyModel beanModel, ElementMetaData elementMetaData)
         {
             this.beanModel = beanModel;
             this.elementMetaData = elementMetaData;
         }
 
-        /** 
+        /**
          * {@inheritDoc}
          * @see java.lang.Object#hashCode()
          */
@@ -711,13 +715,13 @@ public class BeanForm extends Panel
             result = 31 * result + ((elementMetaData == null) ? 0 : elementMetaData.hashCode());
             return result;
         }
-        
+
         private Object getBean()
         {
             return beanModel.getBean();
         }
 
-        /** 
+        /**
          * {@inheritDoc}
          * @see java.lang.Object#equals(java.lang.Object)
          */
@@ -729,12 +733,12 @@ public class BeanForm extends Panel
             }
 
             final ComponentPropertyMapping other = (ComponentPropertyMapping)obj;
-            return beanModel == other.beanModel && 
-                    (elementMetaData == other.elementMetaData || 
-                     (elementMetaData != null && elementMetaData.equals(other.elementMetaData)));
+            return beanModel == other.beanModel &&
+            (elementMetaData == other.elementMetaData ||
+                    (elementMetaData != null && elementMetaData.equals(other.elementMetaData)));
         }
     }
-    
+
     /**
      * Listens to property change events on a bean and adds them to the queue of
      * components to be refreshed. <p>
@@ -754,34 +758,33 @@ public class BeanForm extends Panel
             }
         }
     }
-    
+
     /**
      * Validates required fields on the form and sets an error message on the component if necessary.
      */
-    private final class RequiredFieldValidator implements IVisitor<Component>
+    private final class RequiredFieldValidator implements IVisitor<Component, Object>
     {
-    	private class FieldLabel implements Serializable
+        private class FieldLabel implements Serializable
         {
             private static final long serialVersionUID = 1L;
-    		String fieldLabel;
-    		public FieldLabel(String fieldLabel){this.fieldLabel = fieldLabel;}
-			public String getFieldLabel() {return fieldLabel;}
-			public void setFieldLabel(String fieldLabel) {this.fieldLabel = fieldLabel;}
-    	}
+            String fieldLabel;
+            public FieldLabel(String fieldLabel){this.fieldLabel = fieldLabel;}
+            public String getFieldLabel() {return fieldLabel;}
+            public void setFieldLabel(String fieldLabel) {this.fieldLabel = fieldLabel;}
+        }
 
-    	boolean errorsFound = false;
-        
-        public Object component(Component component)
+        boolean errorsFound = false;
+
+        @Override
+        public void component(Component component, IVisit<Object> visit)
         {
             AbstractField field = (AbstractField)component;
             if (field.isRequiredField() && Strings.isEmpty(field.getDefaultModelObjectAsString())) {
-            	FieldLabel fieldName = new FieldLabel(field.getElementMetaData().getLabel());
-            	StringResourceModel labelModel = new StringResourceModel("wicketwebbeans.BeanForm.fieldIsRequired", field.getElementMetaData().getBeanMetaData().getComponent(), new Model<FieldLabel>(fieldName), "${fieldLabel} is required");
-            	BeanForm.this.error(labelModel.getObject().toString());
+                FieldLabel fieldName = new FieldLabel(field.getElementMetaData().getLabel());
+                StringResourceModel labelModel = new StringResourceModel("wicketwebbeans.BeanForm.fieldIsRequired", field.getElementMetaData().getBeanMetaData().getComponent(), new Model<FieldLabel>(fieldName), "${fieldLabel} is required");
+                BeanForm.this.error(labelModel.getObject().toString());
                 errorsFound = true;
             }
-            
-            return CONTINUE_TRAVERSAL;
         }
-    } 
+    }
 }

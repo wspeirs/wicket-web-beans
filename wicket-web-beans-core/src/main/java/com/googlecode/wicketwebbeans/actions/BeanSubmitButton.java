@@ -5,9 +5,9 @@
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
-   
+
         http://www.apache.org/licenses/LICENSE-2.0
-   
+
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,6 +33,8 @@ import org.apache.wicket.markup.html.form.AbstractSubmitLink;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.util.visit.IVisit;
+import org.apache.wicket.util.visit.IVisitor;
 
 import com.googlecode.wicketwebbeans.containers.BeanForm;
 import com.googlecode.wicketwebbeans.model.ElementMetaData;
@@ -51,12 +53,12 @@ public class BeanSubmitButton extends Panel
     private static final long serialVersionUID = 3103634601101052411L;
 
     private IAjaxCallDecorator decorator = null;
-    
+
     private ElementMetaData elementMetaData;
     private BeanForm beanForm;
 
     /**
-     * Construct a BeanSubmitButton. element.config may contain:<p> 
+     * Construct a BeanSubmitButton. element.config may contain:<p>
      * <ul>
      *  <li>confirm=msg - delivers a confirmation message when clicked. If answer is "Yes", the action proceeeds,
      *    otherwise it is canceled.</li>
@@ -64,7 +66,7 @@ public class BeanSubmitButton extends Panel
      *    form submit.</li>
      *  <li>default - true/false whether the button should be fired when the Enter key is pressed anywhere
      *    on the form.</li>
-     * </ul>     
+     * </ul>
      *
      * @param id
      * @param element
@@ -73,15 +75,15 @@ public class BeanSubmitButton extends Panel
      */
     public BeanSubmitButton(String id, ElementMetaData element, Form form, final Object bean)
     {
-        this(id, element.getLabelComponent("label"), form, bean, 
-                        element.getParameter(PARAM_CONFIRM),
-                        element.getParameter(PARAM_AJAX),
-                        element.getParameter(PARAM_DEFAULT)); 
+        this(id, element.getLabelComponent("label"), form, bean,
+                element.getParameter(PARAM_CONFIRM),
+                element.getParameter(PARAM_AJAX),
+                element.getParameter(PARAM_DEFAULT));
         elementMetaData = element;
     }
 
     /**
-     * Construct a BeanSubmitButton. 
+     * Construct a BeanSubmitButton.
      *
      * @param id
      * @param label
@@ -90,11 +92,11 @@ public class BeanSubmitButton extends Panel
      */
     public BeanSubmitButton(String id, String label, Form form, final Object bean)
     {
-        this(id, new Label("label", label), form, bean, null, null, null); 
+        this(id, new Label("label", label), form, bean, null, null, null);
     }
 
     /**
-     * Construct a BeanSubmitButton. The link has a class of "beanSubmitButton" if label is a 
+     * Construct a BeanSubmitButton. The link has a class of "beanSubmitButton" if label is a
      * regular Label, otherwise the class is "beanSubmitImageButton".
      *
      * Note that updateFeedbackPanels(target) will not work if the action
@@ -112,12 +114,12 @@ public class BeanSubmitButton extends Panel
      * @param isDefault if "true", the button is invoked when enter is pressed on the form.
      */
     private BeanSubmitButton(String id, final Component label, Form form, final Object bean,
-        final String confirmMsg, String ajaxFlag, String isDefault)
+            final String confirmMsg, String ajaxFlag, String isDefault)
     {
         super(id);
-        
+
         setRenderBodyOnly(true);
-        
+
         WebMarkupContainer button;
         if (Boolean.valueOf(ajaxFlag)) {
             button = new AjaxSubmitLink("button", form) {
@@ -129,21 +131,21 @@ public class BeanSubmitButton extends Panel
                     BeanSubmitButton.this.onAction(target, form, bean);
                     updateFeedbackPanels(target); // see comments in function javadoc
                 }
-    
-    
+
+
                 @Override
                 protected void onError(AjaxRequestTarget target, Form form)
                 {
                     BeanSubmitButton.this.onError(target, form, bean);
                     updateFeedbackPanels(target); // see comments in function javadoc
                 }
-    
+
                 @Override
                 protected IAjaxCallDecorator getAjaxCallDecorator()
                 {
                     return decorator;
                 }
-    
+
                 @Override
                 protected void onComponentTag(ComponentTag tag)
                 {
@@ -162,7 +164,7 @@ public class BeanSubmitButton extends Panel
                 {
                     BeanSubmitButton.this.onAction(null, getForm(), bean);
                 }
-    
+
                 @Override
                 protected void onComponentTag(ComponentTag tag)
                 {
@@ -171,7 +173,7 @@ public class BeanSubmitButton extends Panel
                 }
             };
         }
-            
+
         if (confirmMsg != null) {
             button.add( new AttributeModifier("onclick", true, null) {
                 private static final long serialVersionUID = 1L;
@@ -183,7 +185,7 @@ public class BeanSubmitButton extends Panel
                 }
             });
         }
-        
+
         if (Boolean.valueOf(isDefault)) {
             button.add( new SimpleAttributeModifier("id", "bfDefaultButton") );
         }
@@ -192,7 +194,7 @@ public class BeanSubmitButton extends Panel
         add(button);
         button.add(label);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see wicket.Component#onBeforeRender()
@@ -220,7 +222,7 @@ public class BeanSubmitButton extends Panel
 
     /**
      * Called when the button is clicked and no errors exist. Feedback panels are automatically
-     * added to target. 
+     * added to target.
      *
      * @param target the Ajax target, which may be null if not in an Ajax context.
      * @param form the form that was submitted.
@@ -233,7 +235,7 @@ public class BeanSubmitButton extends Panel
 
     /**
      * Called when the button is clicked and errors exist. Feedback panels are automatically
-     * added to target. 
+     * added to target.
      *
      * @param target the Ajax target, which may be null if not in an Ajax context.
      * @param form the form that was submitted.
@@ -254,11 +256,10 @@ public class BeanSubmitButton extends Panel
     protected void updateFeedbackPanels(final AjaxRequestTarget target)
     {
         try {
-            getPage().visitChildren(IFeedback.class, new IVisitor<Component>() {
-                public Object component(Component component)
+            getPage().visitChildren(IFeedback.class, new IVisitor<Component, Object>() {
+                public void component(Component component, IVisit<Object> visit)
                 {
                     target.addComponent(component);
-                    return IVisitor.CONTINUE_TRAVERSAL;
                 }
             });
         } catch (Exception ex) {
@@ -273,14 +274,13 @@ public class BeanSubmitButton extends Panel
      * Should not be called if none set. If the same property occurs many times
      * as in a table, this will set the focus on the first occurrence found.
      */
-    private final class AbstractSubmitLinkVisitor implements IVisitor<Component> {
+    private final class AbstractSubmitLinkVisitor<R> implements IVisitor<Component, R> {
 
-        public Object component(Component innerComponent) {
+        public void component(Component innerComponent, IVisit<R> visit) {
             if (innerComponent instanceof AbstractSubmitLink) {
                 BeanSubmitButton.this.beanForm.setFocusField(innerComponent.getMarkupId());
-                return IVisitor.STOP_TRAVERSAL;
+                visit.stop();
             }
-            return IVisitor.CONTINUE_TRAVERSAL;
         }
 
     }

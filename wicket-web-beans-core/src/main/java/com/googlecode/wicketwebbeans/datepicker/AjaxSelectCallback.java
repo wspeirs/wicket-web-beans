@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
@@ -25,87 +26,87 @@ import org.apache.wicket.util.string.Strings;
 public abstract class AjaxSelectCallback implements ISelectCallback
 {
 
-	private static final Pattern ajaxScriptPattern = 
-            Pattern.compile("^var wcall=wicketAjaxGet\\('([^']+)'.*$");
+    private static final Pattern ajaxScriptPattern =
+        Pattern.compile("^var wcall=wicketAjaxGet\\('([^']+)'.*$");
 
-	private static final SimpleDateFormat dateParamFormat =
-            new SimpleDateFormat("yyyy-M-d-H-m");
+    private static final SimpleDateFormat dateParamFormat =
+        new SimpleDateFormat("yyyy-M-d-H-m");
 
-	private abstract class SelectCallbackBehavior extends AbstractDefaultAjaxBehavior
-	{
+    private abstract class SelectCallbackBehavior extends AbstractDefaultAjaxBehavior
+    {
         @Override
-		public CharSequence getCallbackScript()
-		{
-			return super.getCallbackScript();
-		}
-	}
+        public CharSequence getCallbackScript()
+        {
+            return super.getCallbackScript();
+        }
+    }
 
-	private SelectCallbackBehavior eventBehavior;
+    private SelectCallbackBehavior eventBehavior;
 
-	public final void bind(Component component)
-	{
-		eventBehavior = new SelectCallbackBehavior()
-		{
-			private static final long serialVersionUID = 1L;
+    public final void bind(Component component)
+    {
+        eventBehavior = new SelectCallbackBehavior()
+        {
+            private static final long serialVersionUID = 1L;
 
-			protected void respond(AjaxRequestTarget target)
-			{
-				Request request = RequestCycle.get().getRequest();
+            protected void respond(AjaxRequestTarget target)
+            {
+                Request request = RequestCycle.get().getRequest();
 
-				String dateParam = request.getParameter("dateParam");
-				Date date = null;
+                String dateParam = request.getParameter("dateParam");
+                Date date = null;
 
-				try
-				{
-					date = dateParamFormat.parse(dateParam);
-				}
-				catch (ParseException e)
-				{
-					throw new WicketRuntimeException(e);
-				}
+                try
+                {
+                    date = dateParamFormat.parse(dateParam);
+                }
+                catch (ParseException e)
+                {
+                    throw new WicketRuntimeException(e);
+                }
 
-				onEvent(target, date);
-			}
+                onEvent(target, date);
+            }
 
             @Override
-			protected IAjaxCallDecorator getAjaxCallDecorator()
-			{
-				return new AjaxCallDecorator()
-				{
-					private static final long serialVersionUID = 1L;
+            protected IAjaxCallDecorator getAjaxCallDecorator()
+            {
+                return new AjaxCallDecorator()
+                {
+                    private static final long serialVersionUID = 1L;
 
                     @Override
-					public CharSequence decorateScript(CharSequence script)
-					{
-						AppendingStringBuffer b = new AppendingStringBuffer();
+                    public CharSequence decorateScript(Component component, CharSequence script)
+                    {
+                        AppendingStringBuffer b = new AppendingStringBuffer();
 
-						Matcher mat = ajaxScriptPattern.matcher(script);
-						if (mat.matches())
-						{
-							String url = mat.group(1);
-							String newUrl = url + "&dateParam='+dateParam+'";
-							b.append(Strings.replaceAll(script, url, newUrl));
-						}
-						else
-						{
-							throw new WicketRuntimeException("Internal error in Wicket");
-						}
+                        Matcher mat = ajaxScriptPattern.matcher(script);
+                        if (mat.matches())
+                        {
+                            String url = mat.group(1);
+                            String newUrl = url + "&dateParam='+dateParam+'";
+                            b.append(Strings.replaceAll(script, url, newUrl));
+                        }
+                        else
+                        {
+                            throw new WicketRuntimeException("Internal error in Wicket");
+                        }
 
-						return b;
-					}
+                        return b;
+                    }
 
-				};
-			}
-		};
+                };
+            }
+        };
 
-		component.add(eventBehavior);
-	}
+        component.add(eventBehavior);
+    }
 
-	public final CharSequence handleCallback()
-	{
-		return eventBehavior.getCallbackScript();
-	}
+    public final CharSequence handleCallback()
+    {
+        return eventBehavior.getCallbackScript();
+    }
 
-	protected abstract void onEvent(AjaxRequestTarget target, Date date);
+    protected abstract void onEvent(AjaxRequestTarget target, Date date);
 
 }

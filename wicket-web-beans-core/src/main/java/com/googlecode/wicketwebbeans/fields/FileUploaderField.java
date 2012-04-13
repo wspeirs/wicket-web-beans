@@ -5,9 +5,9 @@
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
-   
+
         http://www.apache.org/licenses/LICENSE-2.0
-   
+
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,6 @@ package com.googlecode.wicketwebbeans.fields;
 
 import java.io.File;
 import java.io.IOException;
-
 
 import org.apache.wicket.Page;
 import org.apache.wicket.WicketRuntimeException;
@@ -83,7 +82,7 @@ public class FileUploaderField extends AbstractField
     }
 
     /**
-     * Called once the upload is finished and the treatment of the 
+     * Called once the upload is finished and the treatment of the
      * {@link FileUpload} has been done in {@link #onFileUploaded}.
      * 
      * @param target an {@link AjaxRequestTarget}
@@ -137,13 +136,13 @@ public class FileUploaderField extends AbstractField
                 return FileUploaderIFrame.class;
             }
         };
-        uploadIFrame = new InlineFrame("upload", getPage().getPageMap(), iFrameLink);
+        uploadIFrame = new InlineFrame("upload", iFrameLink);
         add(uploadIFrame);
     }
 
     /**
-     * Hackie method allowing to add a javascript in the page defining the 
-     * callback called by the innerIframe 
+     * Hackie method allowing to add a javascript in the page defining the
+     * callback called by the innerIframe
      *
      */
     private void addOnUploadedCallback()
@@ -153,14 +152,14 @@ public class FileUploaderField extends AbstractField
         add(new WebComponent("onUploaded") {
             private static final long serialVersionUID = 1L;
 
-            protected void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag)
+            public void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag)
             {
                 // calling it through setTimeout we ensure that the callback is called
                 // in the proper execution context, that is the parent frame
                 replaceComponentTagBody(markupStream, openTag, "function onUpload_"
-                                + FileUploaderField.this.getMarkupId()
-                                + "(clientFileName, newFileUrl) {window.setTimeout(function() { "
-                                + onUploadBehavior.getCallback() + " }, 0 )}");
+                        + FileUploaderField.this.getMarkupId()
+                        + "(clientFileName, newFileUrl) {window.setTimeout(function() { "
+                        + onUploadBehavior.getCallback() + " }, 0 )}");
             }
         });
     }
@@ -173,15 +172,16 @@ public class FileUploaderField extends AbstractField
         public String getCallback()
         {
             return generateCallbackScript(
-                            "wicketAjaxGet('" + getCallbackUrl(false)
-                                            + "&newFileUrl=' + encodeURIComponent(newFileUrl)"
-                                            + " + '&clientFileName=' + encodeURIComponent(clientFileName)").toString();
+                    "wicketAjaxGet('" + getCallbackUrl()
+                    + "&newFileUrl=' + encodeURIComponent(newFileUrl)"
+                    + " + '&clientFileName=' + encodeURIComponent(clientFileName)").toString();
         }
 
         protected void respond(AjaxRequestTarget target)
         {
-            FileUploaderField.this.onUploadFinished(target, getRequest().getParameter("clientFileName"), getRequest()
-                            .getParameter("newFileUrl"));
+            FileUploaderField.this.onUploadFinished(target,
+                    getRequest().getRequestParameters().getParameterValue("clientFileName").toString(),
+                    getRequest().getRequestParameters().getParameterValue("newFileUrl").toString());
         }
     };
 }

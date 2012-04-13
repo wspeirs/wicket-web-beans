@@ -57,6 +57,7 @@
     </license>
   </licenses>
   <repositories>
+<!--
     <repository>
       <id>org.wicketstuff</id>
       <name>Wicket Stuff Repository</name>
@@ -81,7 +82,6 @@
       <name>Wicket Web Beans Snapshot Repository</name>
       <url>http://wicket-web-beans.googlecode.com/svn/repo/snapshotRepository/</url>
     </repository>
-<!--
     <repository>
       <id>org.apache.repository</id>
       <name>Apache Repository For Recent Releases</name>
@@ -186,52 +186,6 @@
     <module>wicket-web-beans-databinder-examples</module>
   </modules>
   <dependencies>
-    <dependency>
-      <groupId>org.apache.wicket</groupId>
-      <artifactId>wicket</artifactId>
-      <version>1.4.13</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.wicket</groupId>
-      <artifactId>wicket-extensions</artifactId>
-      <version>1.4.13</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.wicket</groupId>
-      <artifactId>wicket-datetime</artifactId>
-      <version>1.4.13</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils-core</artifactId>
-      <version>1.8.0</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.2</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.4</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>1.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.4.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.4.2</version>
-    </dependency>
   </dependencies>
   <reporting>
     <plugins>
@@ -279,6 +233,56 @@
       </plugin>
     </plugins>
   </reporting>
+  <dependencyManagement>
+  	<dependencies>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-core</artifactId>
+      <version>1.5.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-extensions</artifactId>
+      <version>1.5.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-datetime</artifactId>
+      <version>1.4.13</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils-core</artifactId>
+      <version>1.8.3</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.2</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.4</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.6.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.6.4</version>
+    </dependency>
+  	</dependencies>
+  </dependencyManagement>
   <distributionManagement>
     <!-- use the following if you're not using a snapshot version. -->
     <repository>

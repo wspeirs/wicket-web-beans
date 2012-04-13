@@ -18,6 +18,7 @@ package com.googlecode.wicketwebbeans.datepicker;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
@@ -59,180 +60,180 @@ import org.apache.wicket.util.convert.converters.DateConverter;
  */
 public class PopupDatePicker extends DatePicker
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Attribute modifier that modifies/ adds an attribute with value of the
-	 * given component's path.
-	 */
-	private final static class PathAttributeModifier extends AttributeModifier
-	{
-		private static final long serialVersionUID = 1L;
+    /**
+     * Attribute modifier that modifies/ adds an attribute with value of the
+     * given component's path.
+     */
+    private final static class PathAttributeModifier extends AttributeModifier
+    {
+        private static final long serialVersionUID = 1L;
 
-		/**
-		 * Construct.
-		 * 
-		 * @param attribute
-		 *            the attribute to modify
-		 * @param pathProvider
-		 *            the component that provides the path
-		 */
-		public PathAttributeModifier(String attribute, final Component pathProvider)
-		{
-			super(attribute, true, new Model<String>()
-			{
-				private static final long serialVersionUID = 1L;
+        /**
+         * Construct.
+         * 
+         * @param attribute
+         *            the attribute to modify
+         * @param pathProvider
+         *            the component that provides the path
+         */
+        public PathAttributeModifier(String attribute, final Component pathProvider)
+        {
+            super(attribute, true, new Model<String>()
+                    {
+                private static final long serialVersionUID = 1L;
 
-				public String getObject()
-				{
-					if (pathProvider.getOutputMarkupId())
-					{
-						return pathProvider.getMarkupId();
-					}
-					// do this lazily, so we know for sure we have the whole
-					// path including the page etc.
-					return pathProvider.getPath();
-				}
-			});
-		}
-	}
+                public String getObject()
+                {
+                    if (pathProvider.getOutputMarkupId())
+                    {
+                        return pathProvider.getMarkupId();
+                    }
+                    // do this lazily, so we know for sure we have the whole
+                    // path including the page etc.
+                    return pathProvider.getPath();
+                }
+                    });
+        }
+    }
 
-	/**
-	 * Button that triggers the popup.
-	 */
-	private final static class TriggerButton extends WebMarkupContainer
-	{
-		private static final long serialVersionUID = 1L;
+    /**
+     * Button that triggers the popup.
+     */
+    private final static class TriggerButton extends WebMarkupContainer
+    {
+        private static final long serialVersionUID = 1L;
 
-		/**
-		 * Construct.
-		 * 
-		 * @param id
-		 *            component id
-		 * @param resourceReference
-		 *            button icon reference
-		 */
-		public TriggerButton(final String id, final ResourceReference resourceReference)
-		{
-			super(id);
-			add(new PathAttributeModifier("id", this));
-			IModel<String> srcReplacement = new Model<String>()
-			{
-				private static final long serialVersionUID = 1L;
+        /**
+         * Construct.
+         * 
+         * @param id
+         *            component id
+         * @param resourceReference
+         *            button icon reference
+         */
+        public TriggerButton(final String id, final ResourceReference resourceReference)
+        {
+            super(id);
+            add(new PathAttributeModifier("id", this));
+            IModel<String> srcReplacement = new Model<String>()
+            {
+                private static final long serialVersionUID = 1L;
 
-				public String getObject()
-				{
-					return (String) urlFor(resourceReference);
-				};
-			};
-			add(new AttributeModifier("src", true, srcReplacement));
-		}
-	}
+                public String getObject()
+                {
+                    return (String) urlFor(resourceReference);
+                };
+            };
+            add(new AttributeModifier("src", true, srcReplacement));
+        }
+    }
 
-	/** the receiving component. */
-	private final Component target;
+    /** the receiving component. */
+    private final Component target;
 
-	/** the button that triggers the popup. */
-	private TriggerButton triggerButton;
+    /** the button that triggers the popup. */
+    private TriggerButton triggerButton;
 
-	/**
-	 * Construct with a default button and style.
-	 * 
-	 * @param id
-	 *            the component id
-	 * @param target
-	 *            the receiving component
-	 */
-	public PopupDatePicker(String id, Component target)
-	{
-		this(id, target, new DatePickerSettings());
-	}
+    /**
+     * Construct with a default button and style.
+     * 
+     * @param id
+     *            the component id
+     * @param target
+     *            the receiving component
+     */
+    public PopupDatePicker(String id, Component target)
+    {
+        this(id, target, new DatePickerSettings());
+    }
 
-	/**
-	 * Construct with a default button and style.
-	 * 
-	 * @param id
-	 *            the component id
-	 * @param label
-	 *            the label for target component.
-	 * @param target
-	 *            the receiving component
-	 */
-	public PopupDatePicker(String id, Component label, Component target)
-	{
-		this(id, label, target, new DatePickerSettings());
-	}
+    /**
+     * Construct with a default button and style.
+     * 
+     * @param id
+     *            the component id
+     * @param label
+     *            the label for target component.
+     * @param target
+     *            the receiving component
+     */
+    public PopupDatePicker(String id, Component label, Component target)
+    {
+        this(id, label, target, new DatePickerSettings());
+    }
 
-	/**
-	 * Construct.
-	 * 
-	 * @param id
-	 *            the component id
-	 * @param target
-	 *            the receiving component
-	 * @param settings
-	 *            datepicker properties
-	 */
-	public PopupDatePicker(final String id, final Component target,
-			final DatePickerSettings settings)
-	{
-		this(id, null, target, settings);
-	}
+    /**
+     * Construct.
+     * 
+     * @param id
+     *            the component id
+     * @param target
+     *            the receiving component
+     * @param settings
+     *            datepicker properties
+     */
+    public PopupDatePicker(final String id, final Component target,
+            final DatePickerSettings settings)
+    {
+        this(id, null, target, settings);
+    }
 
-	/**
-	 * Construct.
-	 * 
-	 * @param id
-	 *            the component id
-	 * @param label
-	 *            the label component (may be null)
-	 * @param target
-	 *            the receiving component
-	 * @param settings
-	 *            datepicker properties
-	 */
-	public PopupDatePicker(final String id, final Component label, final Component target,
-			final DatePickerSettings settings)
-	{
-		super(id, settings);
+    /**
+     * Construct.
+     * 
+     * @param id
+     *            the component id
+     * @param label
+     *            the label component (may be null)
+     * @param target
+     *            the receiving component
+     * @param settings
+     *            datepicker properties
+     */
+    public PopupDatePicker(final String id, final Component label, final Component target,
+            final DatePickerSettings settings)
+    {
+        super(id, settings);
 
-		if (target == null)
-		{
-			throw new IllegalArgumentException("Target must be not null");
-		}
+        if (target == null)
+        {
+            throw new IllegalArgumentException("Target must be not null");
+        }
 
-		target.add(new PathAttributeModifier("id", target));
-		this.target = target;
+        target.add(new PathAttributeModifier("id", target));
+        this.target = target;
 
-		if (label != null)
-		{
-			label.add(new PathAttributeModifier("for", target));
-		}
-		add(triggerButton = new TriggerButton("trigger", settings.getIcon()));
-	}
+        if (label != null)
+        {
+            label.add(new PathAttributeModifier("for", target));
+        }
+        add(triggerButton = new TriggerButton("trigger", settings.getIcon()));
+    }
 
-	protected void appendSettings(Map<String, String> settings)
-	{
-		String targetId = target.getOutputMarkupId() ? target.getMarkupId() : target.getPath();
-		settings.put("inputField", "\"" + targetId + "\"");
-		settings.put("button", "\"" + triggerButton.getPath() + "\"");
-	}
-
-    @Override
-	protected DateConverter getDateConverter()
-	{
-		IConverter converter = target.getConverter(Date.class);
-		if (converter instanceof DateConverter)
-		{
-			return (DateConverter)converter;
-		}
-		return super.getDateConverter();
-	}
+    protected void appendSettings(Map<String, String> settings)
+    {
+        String targetId = target.getOutputMarkupId() ? target.getMarkupId() : target.getPath();
+        settings.put("inputField", "\"" + targetId + "\"");
+        settings.put("button", "\"" + triggerButton.getPath() + "\"");
+    }
 
     @Override
-	protected Locale getDatePickerLocale()
-	{
-		return target.getLocale();
-	}
+    protected DateConverter getDateConverter()
+    {
+        IConverter converter = target.getConverter(Date.class);
+        if (converter instanceof DateConverter)
+        {
+            return (DateConverter)converter;
+        }
+        return super.getDateConverter();
+    }
+
+    @Override
+    protected Locale getDatePickerLocale()
+    {
+        return target.getLocale();
+    }
 
 }

@@ -5,9 +5,9 @@
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
-   
+
         http://www.apache.org/licenses/LICENSE-2.0
-   
+
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,6 @@
 package com.googlecode.wicketwebbeans.containers;
 
 import java.util.List;
-
 
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackHeadersToolbar;
@@ -80,62 +79,41 @@ public class BeanDataTable<T> extends DataTable<T>
     private static final long serialVersionUID = 1L;
 
     private BeanMetaData beanMetaData;
-    
+
     /**
      * Constructor
      * 
-     * @param id
-     *            component id
-     * @param columns
-     *            list of columns
-     * @param dataProvider
-     *            data provider
-     * @param rowsPerPage
-     *            number of rows per page
+     * @param id component id
+     * @param columns list of columns
+     * @param dataProvider data provider
+     * @param rowsPerPage number of rows per page
      * @param metaData
      */
-    public BeanDataTable(String id, final List<IColumn>columns, ISortableDataProvider dataProvider, int rowsPerPage, BeanMetaData metaData)
+    public BeanDataTable(String id,
+            final List<IColumn<T>>columns,
+            ISortableDataProvider<T> dataProvider,
+            int rowsPerPage,
+            BeanMetaData metaData)
     {
-        this(id, (IColumn[]) columns.toArray(new IColumn[columns.size()]), dataProvider, dataProvider, rowsPerPage, metaData);
+        this(id, columns, dataProvider, dataProvider, rowsPerPage, metaData);
     }
-    
+
     /**
      * Constructor
      * 
-     * @param id
-     *            component id
-     * @param columns
-     *            List of columns
-     * @param dataProvider
-     *            data provider
-     * @param sortStateLocator
-     *            sorter           
-     * @param rowsPerPage
-     *            number of rows per page
+     * @param id component id
+     * @param columns List of columns
+     * @param dataProvider data provider
+     * @param sortStateLocator sorter
+     * @param rowsPerPage number of rows per page
      * @param metaData
      */
-    public BeanDataTable(String id, final List<IColumn<T>> columns,
-            IDataProvider<T> dataProvider, ISortStateLocator sortStateLocator, int rowsPerPage, BeanMetaData metaData)
-    {
-        this(id, (IColumn[]) columns.toArray(new IColumn[columns.size()]), dataProvider, sortStateLocator, rowsPerPage, metaData);
-    }
-    
-    /**
-     * Constructor
-     * 
-     * @param id
-     *            component id
-     * @param columns
-     *            array of columns
-     * @param dataProvider
-     *            data provider
-     * @param sortStateLocator
-     * @param rowsPerPage
-     *            number of rows per page
-     * @param metaData
-     */
-    public BeanDataTable(String id, final IColumn<T>[] columns,
-            IDataProvider<T> dataProvider, ISortStateLocator sortStateLocator, int rowsPerPage, BeanMetaData metaData)
+    public BeanDataTable(String id,
+            final List<IColumn<T>> columns,
+            IDataProvider<T> dataProvider,
+            ISortStateLocator sortStateLocator,
+            int rowsPerPage,
+            BeanMetaData metaData)
     {
         super(id, columns, dataProvider, rowsPerPage);
         this.beanMetaData = metaData;
@@ -144,7 +122,7 @@ public class BeanDataTable<T> extends DataTable<T>
         addTopToolbar(new AjaxFallbackHeadersToolbar(this, sortStateLocator));
         addBottomToolbar(new NoRecordsToolbar(this));
     }
-    
+
     /**
      *
      * @param id

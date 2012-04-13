@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
@@ -54,287 +55,287 @@ import org.apache.wicket.util.string.AppendingStringBuffer;
  */
 public abstract class DatePicker extends Panel
 {
-	/**
-	 * Outputs the Javascript initialization code.
-	 */
-	private final class InitScript extends WebComponent
-	{
-		private static final long serialVersionUID = 1L;
+    /**
+     * Outputs the Javascript initialization code.
+     */
+    private final class InitScript extends WebComponent
+    {
+        private static final long serialVersionUID = 1L;
 
-		/**
-		 * Construct.
-		 * 
-		 * @param id
-		 *            component id
-		 */
-		public InitScript(String id)
-		{
-			super(id);
-		}
+        /**
+         * Construct.
+         * 
+         * @param id
+         *            component id
+         */
+        public InitScript(String id)
+        {
+            super(id);
+        }
 
-		/**
-		 * @see wicket.Component#onComponentTagBody(wicket.markup.MarkupStream,
-		 *      wicket.markup.ComponentTag)
-		 */
+        /**
+         * @see wicket.Component#onComponentTagBody(wicket.markup.MarkupStream,
+         *      wicket.markup.ComponentTag)
+         */
         @Override
-		protected void onComponentTagBody(final MarkupStream markupStream,
-                                          final ComponentTag openTag)
-		{
-			replaceComponentTagBody(markupStream, openTag, getInitScript());
-		}
-	}
+        public void onComponentTagBody(final MarkupStream markupStream,
+                final ComponentTag openTag)
+        {
+            replaceComponentTagBody(markupStream, openTag, getInitScript());
+        }
+    }
 
-	protected abstract class CallbackScript extends WebComponent
-	{
-		private static final long serialVersionUID = 1L;
+    protected abstract class CallbackScript extends WebComponent
+    {
+        private static final long serialVersionUID = 1L;
 
-		private ISelectCallback selectCallback;
+        private ISelectCallback selectCallback;
 
-		/**
-		 * Construct.
-		 * 
-		 * @param id
+        /**
+         * Construct.
+         * 
+         * @param id
          *            Component id.
          * @param selectCallback
-		 */
-		public CallbackScript(String id, ISelectCallback selectCallback)
-		{
-			super(id);
+         */
+        public CallbackScript(String id, ISelectCallback selectCallback)
+        {
+            super(id);
 
-			this.selectCallback = selectCallback;
+            this.selectCallback = selectCallback;
 
-			if (selectCallback != null)
-			{
-				selectCallback.bind(this);
-			}
-		}
+            if (selectCallback != null)
+            {
+                selectCallback.bind(this);
+            }
+        }
 
-		public abstract String getCallbackFunctionName();
-
-        @Override
-		public boolean isVisible()
-		{
-			return selectCallback != null;
-		}
+        public abstract String getCallbackFunctionName();
 
         @Override
-		protected void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag)
-		{
-			if (selectCallback != null)
-			{
-				AppendingStringBuffer b = new AppendingStringBuffer("\nfunction ");
+        public boolean isVisible()
+        {
+            return selectCallback != null;
+        }
 
-				String functionName = getCallbackFunctionName();
-				b.append(functionName).append("(calendar){\n");
-				b.append("\tvar dateParam = calendar.date.getFullYear();\n");
-				b.append("\tdateParam += '-';\n");
-				b.append("\tdateParam += calendar.date.getMonth()+1;\n");
-				b.append("\tdateParam += '-';\n");
-				b.append("\tdateParam += calendar.date.getDate();\n");
-				b.append("\tdateParam += '-';\n");
-				b.append("\tdateParam += calendar.date.getHours();\n");
-				b.append("\tdateParam += '-';\n");
-				b.append("\tdateParam += calendar.date.getMinutes();\n");
+        @Override
+        public void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag)
+        {
+            if (selectCallback != null)
+            {
+                AppendingStringBuffer b = new AppendingStringBuffer("\nfunction ");
 
-				CharSequence handleCallback = selectCallback.handleCallback();
-				b.append("\t").append(handleCallback).append("\n");
-				b.append("}\n");
+                String functionName = getCallbackFunctionName();
+                b.append(functionName).append("(calendar){\n");
+                b.append("\tvar dateParam = calendar.date.getFullYear();\n");
+                b.append("\tdateParam += '-';\n");
+                b.append("\tdateParam += calendar.date.getMonth()+1;\n");
+                b.append("\tdateParam += '-';\n");
+                b.append("\tdateParam += calendar.date.getDate();\n");
+                b.append("\tdateParam += '-';\n");
+                b.append("\tdateParam += calendar.date.getHours();\n");
+                b.append("\tdateParam += '-';\n");
+                b.append("\tdateParam += calendar.date.getMinutes();\n");
 
-				replaceComponentTagBody(markupStream, openTag, b);
-			}
-		}
-	}
+                CharSequence handleCallback = selectCallback.handleCallback();
+                b.append("\t").append(handleCallback).append("\n");
+                b.append("}\n");
 
-	private static final long serialVersionUID = 1L;
+                replaceComponentTagBody(markupStream, openTag, b);
+            }
+        }
+    }
 
-	private static final ResourceReference JAVASCRIPT = new CompressedResourceReference(
-			DatePicker.class, "calendar.js");
+    private static final long serialVersionUID = 1L;
 
-	private static final ResourceReference JAVASCRIPT_SETUP = new CompressedResourceReference(
-			DatePicker.class, "calendar-setup.js");
+    private static final ResourceReference JAVASCRIPT = new CompressedResourceReference(
+            DatePicker.class, "calendar.js");
 
-	/** settings for the javascript datepicker component. */
-	private final DatePickerSettings settings;
+    private static final ResourceReference JAVASCRIPT_SETUP = new CompressedResourceReference(
+            DatePicker.class, "calendar-setup.js");
 
-	private DateConverter dateConverter;
+    /** settings for the javascript datepicker component. */
+    private final DatePickerSettings settings;
 
-	private CallbackScript onSelect;
-	private CallbackScript onClose;
-	private CallbackScript onUpdate;
+    private DateConverter dateConverter;
 
-	private Date defaultDate;;
+    private CallbackScript onSelect;
+    private CallbackScript onClose;
+    private CallbackScript onUpdate;
 
-	public DatePicker(final String id, final DatePickerSettings settings)
-	{
-		this(id, settings, null);
-	}
+    private Date defaultDate;;
 
-	public DatePicker(final String id, final DatePickerSettings settings, Date defaultDate)
-	{
-		super(id);
+    public DatePicker(final String id, final DatePickerSettings settings)
+    {
+        this(id, settings, null);
+    }
 
-		if (settings == null)
-		{
-			throw new IllegalArgumentException(
-					"Settings must be non null when using this constructor");
-		}
+    public DatePicker(final String id, final DatePickerSettings settings, Date defaultDate)
+    {
+        super(id);
 
-		this.settings = settings;
-		this.defaultDate = defaultDate;
+        if (settings == null)
+        {
+            throw new IllegalArgumentException(
+            "Settings must be non null when using this constructor");
+        }
 
-		add(new InitScript("script"));
-		add(new JavaScriptReference("calendarMain", JAVASCRIPT));
-		add(new JavaScriptReference("calendarSetup", JAVASCRIPT_SETUP));
-		add(new JavaScriptReference("calendarLanguage", new Model<ResourceReference>()
-		{
-			private static final long serialVersionUID = 1L;
+        this.settings = settings;
+        this.defaultDate = defaultDate;
+
+        add(new InitScript("script"));
+        add(new JavaScriptReference("calendarMain", JAVASCRIPT));
+        add(new JavaScriptReference("calendarSetup", JAVASCRIPT_SETUP));
+        add(new JavaScriptReference("calendarLanguage", new Model<ResourceReference>()
+                {
+            private static final long serialVersionUID = 1L;
 
             @Override
-			public ResourceReference getObject()
-			{
-				return settings.getLanguage(DatePicker.this.getLocale());
-			}
-		}));
-		add(new StyleSheetReference("calendarStyle", settings.getStyle()));
+            public ResourceReference getObject()
+            {
+                return settings.getLanguage(DatePicker.this.getLocale());
+            }
+                }));
+        add(new StyleSheetReference("calendarStyle", settings.getStyle()));
 
-		// Add callbacks
-		add(onSelect = new CallbackScript("onSelect", settings.getOnSelect())
-		{
-			private static final long serialVersionUID = 1L;
+        // Add callbacks
+        add(onSelect = new CallbackScript("onSelect", settings.getOnSelect())
+        {
+            private static final long serialVersionUID = 1L;
 
-			public String getCallbackFunctionName()
-			{
-				return DatePicker.this.getMarkupId() + "_onselect";
-			}
-		});
+            public String getCallbackFunctionName()
+            {
+                return DatePicker.this.getMarkupId() + "_onselect";
+            }
+        });
 
-		add(onClose = new CallbackScript("onClose", settings.getOnClose())
-		{
-			private static final long serialVersionUID = 1L;
+        add(onClose = new CallbackScript("onClose", settings.getOnClose())
+        {
+            private static final long serialVersionUID = 1L;
 
-			public String getCallbackFunctionName()
-			{
-				return DatePicker.this.getMarkupId() + "_onclose";
-			}
-		});
+            public String getCallbackFunctionName()
+            {
+                return DatePicker.this.getMarkupId() + "_onclose";
+            }
+        });
 
-		add(onUpdate = new CallbackScript("onUpdate", settings.getOnUpdate())
-		{
-			private static final long serialVersionUID = 1L;
+        add(onUpdate = new CallbackScript("onUpdate", settings.getOnUpdate())
+        {
+            private static final long serialVersionUID = 1L;
 
-			public String getCallbackFunctionName()
-			{
-				return DatePicker.this.getMarkupId() + "_onupdate";
-			}
-		});
-	}
+            public String getCallbackFunctionName()
+            {
+                return DatePicker.this.getMarkupId() + "_onupdate";
+            }
+        });
+    }
 
-	/**
-	 * Sets the date converter to use for generating the javascript format
-	 * string. If this is not set or set to null the default DateConverter will
-	 * be used.
-	 * 
-	 * @param dateConverter
-	 */
-	public void setDateConverter(DateConverter dateConverter)
-	{
-		this.dateConverter = dateConverter;
-	}
+    /**
+     * Sets the date converter to use for generating the javascript format
+     * string. If this is not set or set to null the default DateConverter will
+     * be used.
+     * 
+     * @param dateConverter
+     */
+    public void setDateConverter(DateConverter dateConverter)
+    {
+        this.dateConverter = dateConverter;
+    }
 
-	/**
-	 * Gets the initilization javascript.
-	 * 
-	 * @return the initilization javascript
-	 */
-	private CharSequence getInitScript()
-	{
-		Map<String, String> additionalSettings = new HashMap<String, String>();
-		appendSettings(additionalSettings);
+    /**
+     * Gets the initilization javascript.
+     * 
+     * @return the initilization javascript
+     */
+    private CharSequence getInitScript()
+    {
+        Map<String, String> additionalSettings = new HashMap<String, String>();
+        appendSettings(additionalSettings);
 
-		AppendingStringBuffer b = new AppendingStringBuffer();
+        AppendingStringBuffer b = new AppendingStringBuffer();
 
-		if (defaultDate != null)
-		{
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(defaultDate);
+        if (defaultDate != null)
+        {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(defaultDate);
 
-			b.append("\nvar defaultDate = new Date();");
-			b.append("\ndefaultDate.setFullYear(").append(calendar.get(Calendar.YEAR)).append(");");
-			b.append("\ndefaultDate.setDate(").append(calendar.get(Calendar.DAY_OF_MONTH)).append(
-			");");
-			b.append("\ndefaultDate.setMonth(").append(calendar.get(Calendar.MONTH)).append(");");
-			b.append("\ndefaultDate.setHours(").append(calendar.get(Calendar.HOUR_OF_DAY)).append(
-					");");
-			b.append("\ndefaultDate.setMinutes(").append(calendar.get(Calendar.MINUTE)).append(
-					");\n");
-		}
+            b.append("\nvar defaultDate = new Date();");
+            b.append("\ndefaultDate.setFullYear(").append(calendar.get(Calendar.YEAR)).append(");");
+            b.append("\ndefaultDate.setDate(").append(calendar.get(Calendar.DAY_OF_MONTH)).append(
+            ");");
+            b.append("\ndefaultDate.setMonth(").append(calendar.get(Calendar.MONTH)).append(");");
+            b.append("\ndefaultDate.setHours(").append(calendar.get(Calendar.HOUR_OF_DAY)).append(
+            ");");
+            b.append("\ndefaultDate.setMinutes(").append(calendar.get(Calendar.MINUTE)).append(
+            ");\n");
+        }
 
-		b.append("\nCalendar.setup(\n{");
+        b.append("\nCalendar.setup(\n{");
 
-		// Append specific settings
-		for (Iterator iter = additionalSettings.keySet().iterator(); iter.hasNext();)
-		{
-			String option = (String)iter.next();
+        // Append specific settings
+        for (Iterator iter = additionalSettings.keySet().iterator(); iter.hasNext();)
+        {
+            String option = (String)iter.next();
 
-			b.append("\n\t\t").append(option).append(" : ").append(additionalSettings.get(option))
-					.append(",");
-		}
+            b.append("\n\t\t").append(option).append(" : ").append(additionalSettings.get(option))
+            .append(",");
+        }
 
-		// Callbacks
-		if (settings.getOnClose() != null)
-		{
-			b.append("\n\t\tonClose : ").append(onClose.getCallbackFunctionName()).append(",");
-		}
-		if (settings.getOnSelect() != null)
-		{
-			b.append("\n\t\tonSelect : ").append(onSelect.getCallbackFunctionName()).append(",");
-		}
-		if (settings.getOnUpdate() != null)
-		{
-			b.append("\n\t\tonUpdate : ").append(onUpdate.getCallbackFunctionName()).append(",");
-		}
+        // Callbacks
+        if (settings.getOnClose() != null)
+        {
+            b.append("\n\t\tonClose : ").append(onClose.getCallbackFunctionName()).append(",");
+        }
+        if (settings.getOnSelect() != null)
+        {
+            b.append("\n\t\tonSelect : ").append(onSelect.getCallbackFunctionName()).append(",");
+        }
+        if (settings.getOnUpdate() != null)
+        {
+            b.append("\n\t\tonUpdate : ").append(onUpdate.getCallbackFunctionName()).append(",");
+        }
 
-		if (defaultDate != null)
-		{
-			b.append("\n\t\tdate : defaultDate,");
-		}
+        if (defaultDate != null)
+        {
+            b.append("\n\t\tdate : defaultDate,");
+        }
 
-		String pattern = null;
-		if (dateConverter == null)
-		{
-			dateConverter = getDateConverter();
-		}
-		DateFormat df = dateConverter.getDateFormat(getDatePickerLocale());
-		if (df instanceof SimpleDateFormat)
-		{
-			pattern = ((SimpleDateFormat)df).toPattern();
-		}
-		b.append(settings.toScript(getDatePickerLocale(), pattern));
+        String pattern = null;
+        if (dateConverter == null)
+        {
+            dateConverter = getDateConverter();
+        }
+        DateFormat df = dateConverter.getDateFormat(getDatePickerLocale());
+        if (df instanceof SimpleDateFormat)
+        {
+            pattern = ((SimpleDateFormat)df).toPattern();
+        }
+        b.append(settings.toScript(getDatePickerLocale(), pattern));
 
-		int last = b.length() - 1;
-		if (',' == b.charAt(last))
-		{
-			b.deleteCharAt(last);
-		}
-		b.append("\n});");
-		return b;
-	}
+        int last = b.length() - 1;
+        if (',' == b.charAt(last))
+        {
+            b.deleteCharAt(last);
+        }
+        b.append("\n});");
+        return b;
+    }
 
-	protected abstract void appendSettings(Map<String, String> settings);
+    protected abstract void appendSettings(Map<String, String> settings);
 
-	protected DateConverter getDateConverter()
-	{
-		if (dateConverter == null)
-		{
-			dateConverter = new DateConverter();
-		}
+    protected DateConverter getDateConverter()
+    {
+        if (dateConverter == null)
+        {
+            dateConverter = new DateConverter();
+        }
 
-		return dateConverter;
-	}
+        return dateConverter;
+    }
 
-	protected Locale getDatePickerLocale()
-	{
-		return getLocale();
-	}
+    protected Locale getDatePickerLocale()
+    {
+        return getLocale();
+    }
 
 }

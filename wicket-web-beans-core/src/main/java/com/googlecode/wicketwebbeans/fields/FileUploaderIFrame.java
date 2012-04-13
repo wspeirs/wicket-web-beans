@@ -5,9 +5,9 @@
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
-   
+
         http://www.apache.org/licenses/LICENSE-2.0
-   
+
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,7 +48,7 @@ public abstract class FileUploaderIFrame extends WebPage
     {
         add(new UploadForm("form"));
         addOnUploadedCallback();
-        
+
     }
 
     /**
@@ -58,7 +58,7 @@ public abstract class FileUploaderIFrame extends WebPage
     protected abstract String getOnUploadedCallback();
 
     /**
-     * Called when the input stream has been uploaded and when it is available 
+     * Called when the input stream has been uploaded and when it is available
      * on server side
      * return the url of the uploaded file
      * @param upload fileUpload
@@ -80,14 +80,14 @@ public abstract class FileUploaderIFrame extends WebPage
                 @Override
                 public void onEvent(AjaxRequestTarget target)
                 {
-                    target.appendJavascript("showFileUploaderFieldIndicator()");
+                    target.appendJavaScript("showFileUploaderFieldIndicator()");
                 }
             };
-            
+
             onChangeEventHandler.setThrottleDelay(Duration.valueOf(1000L));
             uploadField.add(onChangeEventHandler);
             add(uploadField);
-            
+
             add(new Image("indicator", "indicator.gif"));
             add(new Label("clientFileName", clientFileName));
         }
@@ -115,13 +115,13 @@ public abstract class FileUploaderIFrame extends WebPage
         // Run the callback on the parent
         add(new WebComponent("onUploaded") {
             private static final long serialVersionUID = 1L;
-            protected void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag)
+            public void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag)
             {
                 if (uploaded) {
                     if (uploadField.getFileUpload() != null) {
                         replaceComponentTagBody(markupStream, openTag, "window.parent." + getOnUploadedCallback()
-                                        + "('" + uploadField.getFileUpload().getClientFileName() + "','" + newFileUrl
-                                        + "')");
+                                + "('" + uploadField.getFileUpload().getClientFileName() + "','" + newFileUrl
+                                + "')");
                     }
                     uploaded = false;
                 }

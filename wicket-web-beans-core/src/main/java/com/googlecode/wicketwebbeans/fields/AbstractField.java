@@ -5,9 +5,9 @@
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
-   
+
         http://www.apache.org/licenses/LICENSE-2.0
-   
+
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,8 @@ import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.string.Strings;
+import org.apache.wicket.util.visit.IVisit;
+import org.apache.wicket.util.visit.IVisitor;
 
 import com.googlecode.wicketwebbeans.containers.BeanForm;
 import com.googlecode.wicketwebbeans.model.BeanPropertyModel;
@@ -41,12 +43,12 @@ import com.googlecode.wicketwebbeans.model.ElementMetaData;
 abstract public class AbstractField extends Panel implements Field
 {
     private static final long serialVersionUID = -5452855853289381110L;
-    
+
     private ElementMetaData elementMetaData;
     private BeanForm beanForm;
 
     /**
-     * Construct a AbstractField. 
+     * Construct a AbstractField.
      *
      * @param id the Wicket id for the editor.
      * @param model the model.
@@ -57,15 +59,15 @@ abstract public class AbstractField extends Panel implements Field
     {
         super(id, model);
         this.elementMetaData = metaData;
-        
+
         metaData.consumeParameter(ElementMetaData.PARAM_REQUIRED);
         metaData.consumeParameter(ElementMetaData.PARAM_MAX_LENGTH);
-        
+
         // Allow for refreshing of the field via Ajax.
         setOutputMarkupId(true);
         setRenderBodyOnly(false);
     }
-    
+
     /**
      * @return true if the field's metadata says that it is a required field.
      */
@@ -73,7 +75,7 @@ abstract public class AbstractField extends Panel implements Field
     {
         return elementMetaData.isRequired();
     }
-    
+
     /**
      * @return the maximum length for the field, or null if no maxmimum length.
      */
@@ -81,7 +83,7 @@ abstract public class AbstractField extends Panel implements Field
     {
         return elementMetaData.getMaxLength();
     }
-    
+
     /**
      * @return the default string value for this field, or null if none is defined.
      */
@@ -89,7 +91,7 @@ abstract public class AbstractField extends Panel implements Field
     {
         return elementMetaData.getDefaultValue();
     }
-    
+
     /**
      * Gets a java.text.Format string for formatting the field.
      *
@@ -99,20 +101,20 @@ abstract public class AbstractField extends Panel implements Field
     {
         return elementMetaData.getParameter("format");
     }
-    
+
     protected void setFieldParameters(FormComponent field)
     {
         Integer maxLength = getMaxLength();
         if (maxLength != null) {
             field.add( new SimpleAttributeModifier("maxlength", maxLength.toString()) );
         }
-        
+
         String defaultValue = getDefaultValue();
         if (defaultValue != null && Strings.isEmpty(getDefaultModelObjectAsString())) {
-            field.setModelValue(defaultValue);
+            field.setModelValue(new String[] { defaultValue });
         }
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.apache.wicket.Component#onAttach()
@@ -128,8 +130,8 @@ abstract public class AbstractField extends Panel implements Field
             parentBeanForm.registerComponent(this, (BeanPropertyModel)getDefaultModel(), elementMetaData);
 
             if (parentBeanForm.getFocusField() != null
-                        && parentBeanForm.getFocusField().equals(
-                                elementMetaData.getPropertyName())) {
+                    && parentBeanForm.getFocusField().equals(
+                            elementMetaData.getPropertyName())) {
 
                 FormComponentVisitor focusFinder = new FormComponentVisitor();
                 visitChildren(focusFinder);
@@ -150,7 +152,7 @@ abstract public class AbstractField extends Panel implements Field
 
     /**
      * For internal BeanForm use only. Returns the BeanForm that this component is contained in, only after onBeforeRender().
-     * @return 
+     * @return
      */
     public BeanForm getBeanForm()
     {
@@ -175,8 +177,8 @@ abstract public class AbstractField extends Panel implements Field
 
             if (!propertyClass.isAssignableFrom( property.getPropertyType() )) {
                 throw new RuntimeException(parameterName + "'" + propStr + "' must return a " + propertyClass.getName() + " on "
-                                + metaData.getBeanMetaData().getBeanClass() + ". Instead it returns "
-                                + property.getPropertyType());
+                        + metaData.getBeanMetaData().getBeanClass() + ". Instead it returns "
+                        + property.getPropertyType());
             }
         }
         return property;
@@ -203,14 +205,14 @@ abstract public class AbstractField extends Panel implements Field
      * Should not be called if none set. If the same property occurs many times
      * as in a table, this will set the focus on the first occurrence found.
      */
-    private final class FormComponentVisitor implements IVisitor<Component> {
+    private final class FormComponentVisitor implements IVisitor<Component, Object> {
 
-        public Object component(Component innerComponent) {
+        @Override
+        public void component(Component innerComponent, IVisit<Object> visit) {
             if (innerComponent instanceof FormComponent) {
                 AbstractField.this.beanForm.setFocusField(innerComponent.getMarkupId());
-                return IVisitor.STOP_TRAVERSAL;
+                visit.stop();
             }
-            return IVisitor.CONTINUE_TRAVERSAL;
         }
 
     }

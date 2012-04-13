@@ -5,9 +5,9 @@
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
-   
+
         http://www.apache.org/licenses/LICENSE-2.0
-   
+
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,6 @@ package com.googlecode.wicketwebbeans.fields;
 
 import java.io.Serializable;
 import java.util.List;
-
 
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
@@ -46,7 +45,7 @@ abstract public class EnumField extends AbstractField
 {
     private DropDownChoice choice;
     private IChoiceRenderer choiceRenderer;
-    
+
     /**
      * Construct a new EnumField.
      *
@@ -54,14 +53,14 @@ abstract public class EnumField extends AbstractField
      * @param model the model.
      * @param metaData the meta data for the property.
      * @param viewOnly true if the component should be view-only.
-     * @param values a List of values to be selected from. The element's toString() is used to 
+     * @param values a List of values to be selected from. The element's toString() is used to
      *  produce the value displayed to the user.
      */
     public EnumField(String id, IModel model, ElementMetaData metaData, boolean viewOnly, List<?> values)
     {
         this(id, model, metaData, viewOnly, new Model((Serializable)values));
     }
-    
+
     /**
      * Construct a new EnumField.
      *
@@ -69,14 +68,14 @@ abstract public class EnumField extends AbstractField
      * @param model the model.
      * @param metaData the meta data for the property.
      * @param viewOnly true if the component should be view-only.
-     * @param valueModel an IModel that returns a List of values to be selected from. The element's toString() is used to 
+     * @param valueModel an IModel that returns a List of values to be selected from. The element's toString() is used to
      *  produce the value displayed to the user.
      */
     public EnumField(String id, IModel model, ElementMetaData metaData, boolean viewOnly, IModel valueModel)
     {
         this(id, model, metaData, viewOnly, valueModel, null);
     }
-    
+
     /**
      * Construct a new EnumField.
      *
@@ -84,18 +83,18 @@ abstract public class EnumField extends AbstractField
      * @param model the model.
      * @param metaData the meta data for the property.
      * @param viewOnly true if the component should be view-only.
-     * @param valueModel an IModel that returns a List of values to be selected from. The element's toString() is used to 
+     * @param valueModel an IModel that returns a List of values to be selected from. The element's toString() is used to
      *  produce the value displayed to the user.
      * @param choiceRenderer a renderer that produces the value displayed to the user. May be null to use the default rendering.
      */
     public EnumField(String id, IModel model, ElementMetaData metaData, boolean viewOnly, IModel valueModel, final IChoiceRenderer choiceRenderer)
     {
         super(id, model, metaData, viewOnly);
-        
+
         this.choiceRenderer = choiceRenderer;
         Fragment fragment;
         if (viewOnly) {
-            fragment = new Fragment("frag", "viewer");
+            fragment = new Fragment("frag", "viewer", this);
             fragment.add(new LabelWithMinSize("component", model) {
                 private static final long serialVersionUID = 1L;
                 @Override
@@ -116,7 +115,7 @@ abstract public class EnumField extends AbstractField
             });
         }
         else {
-            fragment = new Fragment("frag", "editor");
+            fragment = new Fragment("frag", "editor", this);
             choice = new DropDownChoice("component", model, valueModel, choiceRenderer);
             // Always allow the null choice.
             choice.setNullValid(true);
@@ -127,9 +126,9 @@ abstract public class EnumField extends AbstractField
 
         add(fragment);
     }
-    
+
     /**
-     * Sets the list of possible values. 
+     * Sets the list of possible values.
      *
      * @param values the values.
      */
@@ -137,9 +136,9 @@ abstract public class EnumField extends AbstractField
     {
         setValuesModel( new Model((Serializable)values) );
     }
-    
+
     /**
-     * Sets the model of the list of possible values. This model should return a List. 
+     * Sets the model of the list of possible values. This model should return a List.
      *
      * @param valuesModel the values model.
      */
@@ -148,7 +147,7 @@ abstract public class EnumField extends AbstractField
         choice.setChoices(valuesModel);
         initDefault();
     }
-    
+
     private void initDefault()
     {
         // Handle default selection if no model is provided
@@ -166,7 +165,7 @@ abstract public class EnumField extends AbstractField
             }
         }
     }
-    
+
     private void setupDefault(String defaultChoice)
     {
         List<?> values = choice.getChoices();
@@ -206,7 +205,7 @@ abstract public class EnumField extends AbstractField
             else if (useRenderer) {
                 valueStr = choiceRenderer.getIdValue(value, i);
             }
-            
+
             if (defaultChoice.equals(valueStr)) {
                 choice.setModelObject(value);
                 break;

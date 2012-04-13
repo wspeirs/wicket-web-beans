@@ -5,9 +5,9 @@
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
-   
+
         http://www.apache.org/licenses/LICENSE-2.0
-   
+
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,25 +42,24 @@ import org.apache.wicket.util.convert.IConverter;
 import org.apache.wicket.util.convert.converters.DateConverter;
 import org.apache.wicket.util.string.Strings;
 
-import com.googlecode.wicketwebbeans.model.ElementMetaData;
-
 import com.googlecode.wicketwebbeans.datepicker.DatePicker;
 import com.googlecode.wicketwebbeans.datepicker.DatePickerSettings;
 import com.googlecode.wicketwebbeans.datepicker.PopupDatePicker;
+import com.googlecode.wicketwebbeans.model.ElementMetaData;
 
 
 /**
  * Date/Time Field component. Implemented as a text field combined with a DatePicker.
  * <p>
  * 
- * The enclosing component's properties file may define standard date/time formats 
+ * The enclosing component's properties file may define standard date/time formats
  * using the following keys:
  * <ul>
  * <li><code>DateTimeField.date.format</code> - Format for java.sql.Date.</li>
  * <li><code>DateTimeField.datetime.format</code> - Format for java.sql.Timestamp or java.util.Date.</li>
  * <li><code>DateTimeField.time.format</code> - Format for java.sql.Time.</li>
  * <li><code>DateTimeField.datetimetz.format</code> - Format for java.util.Calendar types.</li>
- * </ul> 
+ * </ul>
  * 
  * @author Dan Syrstad
  */
@@ -72,10 +71,10 @@ public class DateTimeField extends AbstractField
     public static final String TIME_FMT_STR = "HH:mm";
     public static final String DATE_TIME_FMT_STR = DATE_FMT_STR + ' ' + TIME_FMT_STR;
     public static final String DATE_TIME_ZONE_FMT_STR = DATE_TIME_FMT_STR + " z";
-    
+
     private static final String DATE_TIME_FIELD_PREFIX = "DateTimeField.";
     private static final String FORMAT_SUFFIX = ".format";
-    
+
     private String fmt;
     private Class<?> type;
 
@@ -90,7 +89,7 @@ public class DateTimeField extends AbstractField
     public DateTimeField(String id, IModel<Date> model, ElementMetaData metaData, boolean viewOnly)
     {
         super(id, model, metaData, viewOnly);
-        
+
         type = metaData.getPropertyType();
         boolean displayTz = false;
         Component metaDataComponent = metaData.getBeanMetaData().getComponent();
@@ -102,23 +101,23 @@ public class DateTimeField extends AbstractField
             fmt = localizer.getString(DATE_TIME_FIELD_PREFIX + "date" + FORMAT_SUFFIX, metaDataComponent, DATE_FMT_STR);
         }
         else if (Calendar.class.isAssignableFrom(type)) {
-            fmt = viewOnly ? localizer.getString(DATE_TIME_FIELD_PREFIX + "datetimetz" + FORMAT_SUFFIX, metaDataComponent, DATE_TIME_ZONE_FMT_STR) : 
-                             localizer.getString(DATE_TIME_FIELD_PREFIX + "datetime" + FORMAT_SUFFIX, metaDataComponent, DATE_TIME_FMT_STR);
+            fmt = viewOnly ? localizer.getString(DATE_TIME_FIELD_PREFIX + "datetimetz" + FORMAT_SUFFIX, metaDataComponent, DATE_TIME_ZONE_FMT_STR) :
+                localizer.getString(DATE_TIME_FIELD_PREFIX + "datetime" + FORMAT_SUFFIX, metaDataComponent, DATE_TIME_FMT_STR);
             displayTz = true;
         }
-        else { // if (Date.class.isAssignableFrom(type) || Timestamp.class.isAssignableFrom(type)) 
+        else { // if (Date.class.isAssignableFrom(type) || Timestamp.class.isAssignableFrom(type))
             fmt = localizer.getString(DATE_TIME_FIELD_PREFIX + "datetime" + FORMAT_SUFFIX, metaDataComponent, DATE_TIME_FMT_STR);
         }
-        
+
         String customFmt = getFormat();
         if (customFmt != null) {
             fmt = customFmt;
         }
-        
-        final InternalDateConverter converter = new InternalDateConverter(); 
+
+        final InternalDateConverter converter = new InternalDateConverter();
         Fragment fragment;
         if (viewOnly) {
-            fragment = new Fragment("frag", "viewer");
+            fragment = new Fragment("frag", "viewer", this);
             Label label = new LabelWithMinSize("date", model) {
                 private static final long serialVersionUID = 1L;
                 @Override
@@ -127,11 +126,11 @@ public class DateTimeField extends AbstractField
                     return converter;
                 }
             };
-            
+
             fragment.add(label);
         }
         else {
-            fragment = new Fragment("frag", "editor");
+            fragment = new Fragment("frag", "editor", this);
 
             final FormComponent dateField = new DateTextField("dateTextField", model) {
                 private static final long serialVersionUID = 1L;
@@ -141,14 +140,14 @@ public class DateTimeField extends AbstractField
                     return converter;
                 }
             };
-            
+
             setFieldParameters(dateField);
             fragment.add(dateField);
-    
+
             DatePickerSettings settings = new DatePickerSettings();
             settings.setStyle( settings.newStyleWinter() );
             settings.setIcon( new ResourceReference(this.getClass(), "calendar.gif") );
-    
+
             DatePicker picker = new PopupDatePicker("datePicker", dateField, settings);
             // This sucks! It expects a DateConverter. I've got my own.
             DateConverter dateConverter = new DateConverter() {
@@ -166,10 +165,10 @@ public class DateTimeField extends AbstractField
                 {
                     return type;
                 }
-                
+
             };
 
-            picker.setDateConverter(dateConverter); 
+            picker.setDateConverter(dateConverter);
             fragment.add(picker);
 
             if (displayTz) {
@@ -181,7 +180,7 @@ public class DateTimeField extends AbstractField
                         return new TimeZoneConverter();
                     }
                 };
-                
+
                 fragment.add(label);
             }
             else {
@@ -192,7 +191,7 @@ public class DateTimeField extends AbstractField
         add(fragment);
     }
 
-    private final class InternalDateConverter implements IConverter 
+    private final class InternalDateConverter implements IConverter
     {
         private static final long serialVersionUID = 1L;
 
@@ -210,13 +209,13 @@ public class DateTimeField extends AbstractField
             }
             return null;
         }
-        
+
         public Object convertToObject(String value, Locale locale)
         {
             if (Strings.isEmpty(value)) {
                 return null;
             }
-            
+
             // Convert String to Calendar or sql.Date/Time/Timestamp
             Date date = null;
             // First convert it to a date. We think it's GMT because no TZ is specified in the String.
@@ -227,25 +226,25 @@ public class DateTimeField extends AbstractField
             }
             catch (ParseException e) {
                 throw new ConversionException("Cannot convert '" + value + "' to a Date.").setSourceValue(value)
-                    .setTargetType(type).setConverter(this).setLocale(locale);
+                .setTargetType(type).setConverter(this).setLocale(locale);
             }
-            
+
             if (Timestamp.class == type) {
                 return new Timestamp(date.getTime());
             }
-            
+
             if (java.sql.Date.class == type) {
                 return new java.sql.Date(date.getTime());
             }
-            
+
             if (Time.class == type) {
                 return new Time(date.getTime());
             }
-            
+
             if (Date.class == type) {
                 return date;
             }
-            
+
             if (Calendar.class.isAssignableFrom(type)) {
                 Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("GMT") );
                 cal.setTime(date);
@@ -256,7 +255,7 @@ public class DateTimeField extends AbstractField
         }
     }
 
-    private final class TimeZoneConverter implements IConverter 
+    private final class TimeZoneConverter implements IConverter
     {
         private static final long serialVersionUID = 1L;
 
@@ -264,7 +263,7 @@ public class DateTimeField extends AbstractField
         {
             if (value instanceof Calendar) {
                 Calendar cal = (Calendar)value;
-                TimeZone zone = cal.getTimeZone(); 
+                TimeZone zone = cal.getTimeZone();
                 return zone.getDisplayName( zone.inDaylightTime(cal.getTime()), TimeZone.SHORT, locale);
             }
 
